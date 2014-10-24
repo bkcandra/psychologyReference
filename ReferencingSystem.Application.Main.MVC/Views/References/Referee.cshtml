@@ -1,0 +1,173 @@
+﻿@using Microsoft.AspNet.Identity;
+@{
+    ViewBag.Title = "Referee Request";
+    var userId = User.Identity.GetUserId();
+}
+<header class="main-header">
+    <div class="container">
+        <h1 class="page-title">@ViewBag.Title</h1>
+    </div>
+</header>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            @Html.Partial("_ApplicationLinkPartial", 1)
+        </div>
+        <div class="col-md-9">
+            <div class="col-md-12">
+                <h3>My Request</h3>
+                <p class="em-primary">@ViewBag.StatusMessage</p>
+            </div>
+            <div class="col-md-12">
+                @Html.Partial("RefereeReferenceListing", userId)
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            var isValid = @Html.Raw(Json.Encode(ViewData.ModelState.IsValid));
+            if (!isValid) {
+                toogle(true);
+            }
+            else
+            {
+                toogle(false);
+                $('#btnConfirmSend').hide();
+            }
+        });
+
+        $('#btnNewRef').click(function () {
+            toogle(true);
+        });
+
+        $('#btnCancelRef').click(function () {
+            toogle(false);
+        });
+
+        $('#btnRequest').click(function () {
+            $('#confirmEmail').addClass( "has-warning has-feedback");
+            $( '#confirmEmail' ).append( '<span class="glyphicon glyphicon-warning-sign form-control-feedback">' )
+
+            $('#confirmCourse').addClass( "has-warning has-feedback");
+
+            $('#confirmNotes').addClass( "has-success has-feedback");
+            $( '#confirmNotes' ).append( '<span class="glyphicon glyphicon-ok form-control-feedback">' );
+
+            $('#btnRequest').hide();
+            $('#btnConfirmSend').velocity("fadeIn");
+            $('[rel="popover"]').popover()
+            $("#initialRefForm").validate();
+        });
+
+        $('#btnConfirmSend').click(function () {
+
+        });
+
+        $("#btnAddCourse").click(function () {
+
+            var thevalue="";
+
+            $('select').each(function(){
+                if(thevalue == '')
+                    thevalue = $(this).val();
+                else
+                    thevalue = thevalue +"|"+$(this).val();
+                //your code here
+            });
+            var url = "../References/AddCourse";
+
+
+            $.ajax({
+                url: url,
+                cache: false,
+                type: "POST",
+                data :{
+                    selected: thevalue
+                },
+                success: function (data) {
+                    $('#confirmCourse').append(data);
+                    $('#confirmCourse').velocity("fadeIn");
+                },
+                error: function (reponse) {
+                    alert("error : " + reponse);
+                }
+            });
+        });
+
+        function toogle(show) {
+            if (show) {
+                $('#btnCancelRef').velocity("fadeIn");
+                $('#btnConfirmSend').hide();
+                $('#NewRef').velocity("slideDown", { delay: 300, duration: "slow" });
+                $('#btnNewRef').hide();
+            }
+            else {
+
+
+                $('#btnCancelRef').hide();
+                $('#NewRef').velocity("slideUp", { delay: 300, duration: "fast" });
+                $('#btnNewRef').velocity("fadeIn");
+            }
+        }
+
+        $(".noteLink").click(function(){
+            var userId = "@userId";
+            var transId   =$(this).siblings("input[name='transId']").val();
+            var hiddenNote = $(this).siblings("input[name='note["+transId+"]']").val();
+
+            $("#noteTrans").val(transId);
+            $("#modalNote").val(hiddenNote);
+            $('#noteModal').modal('show');
+        });
+
+
+
+        $("#noteSave").click(function(){
+            var userId = "@userId";
+            var transId =  $("#noteTrans").val();
+            var message = $("#noteReply").val();
+
+            $.ajax({
+                type: 'post',
+                url : '@Url.Content("~/References/SaveNotes")',
+                data :{
+                    message: message,
+                    transId:transId,
+                    userId: userId
+                },
+
+                success: function(response)
+                {
+                    $('#shareModal').modal('hide');
+                    if(response.Status)
+                    {
+                        $('#DivMessage').append('  <div class="alert alert-success" style="display:none"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><strong><i class="fa fa-check"></i> Success!</strong> '+response.Message +'</div>');
+                        $('.alert-success').fadeIn();
+                        var hiddenNote = $("input[name='note["+transId+"]']").val(response.Note);
+                    }
+                    else
+                    {
+                        $('#DivMessage').append('<div class="alert alert-danger" style="display:none"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><strong><i class="fa fa-times"></i> Error!</strong>' +response.Message +'</div>');
+                        $('.alert-danger').fadeIn();
+                    }
+                },
+                error: function (reponse) {
+                    
+                }
+            });
+            $("#noteReply").val('');
+            $('#noteModal').modal('hide');
+            alertTimeout(2000);
+        });
+        function alertTimeout(wait){
+            setTimeout(function(){
+                $('.alert-danger').velocity("fadeOut", { delay: 500, duration: 1000});
+            }, wait);
+            $('.alert-danger').remove();
+        }
+    </script>
+}

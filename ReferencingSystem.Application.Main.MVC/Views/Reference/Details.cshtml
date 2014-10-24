@@ -1,0 +1,62 @@
+﻿@model ReferencingSystem.Model.Reference
+
+@{
+     var userProfile = new ReferencingSystem.Model.RsContext()
+        .UserProfiles.Where(x => x.UserId == Model.RefUserId)
+        .FirstOrDefault();
+    ViewBag.Title = "Review Reference";
+   
+    
+}
+
+<header class="main-header">
+    <div class="container">
+        <h1 class="page-title">@ViewBag.Title</h1>
+    </div>
+</header>
+<div class="container">
+    <div class="row">
+        @{
+            if (userProfile.RefereeType == (int)ReferencingSystem.Utility.SystemConstants.RefereeType.Academic)
+            {
+                @Html.Partial("AcademicFormViewer", Model);
+            }
+            else if (userProfile.RefereeType == (int)ReferencingSystem.Utility.SystemConstants.RefereeType.Professional)
+            {
+                @Html.Partial("ProfessionalFormViewer", Model);
+            }
+        }
+
+        @if (Model.Status < (int)ReferencingSystem.Utility.SystemConstants.Status.ReturnedToUser)
+        {
+            
+            using (Html.BeginForm("SubmitRef", "Reference", FormMethod.Post, new { @class = "review" }))
+            {
+                @Html.HiddenFor(x=>x.TransId)
+                @Html.HiddenFor(x => x.Id)
+                @Html.HiddenFor(x => x.UserId)
+                <div class="col-md-12 text-center">
+                    <label>
+                        <input id="checkVerify" type="checkbox"> I verify the information in this reference is correct.
+                    </label>
+                </div>
+                <div class="col-md-12 text-right">
+                    @Html.ActionLink("Cancel", "", "References", new { @class = "btn btn-ar btn-primary" })
+                    <input type="submit" value="Submit" class="btn btn-ar btn-primary" />
+                </div>
+            }
+            @section scripts
+                {
+                <script>
+                    $('form.review').submit(function () {
+                        if (!$('#checkVerify').is(':checked')) {
+                            alert('Please verify the reference before submit !');
+                            return false;
+                        }
+                    });
+
+                </script>
+            }
+        }
+    </div>
+</div>

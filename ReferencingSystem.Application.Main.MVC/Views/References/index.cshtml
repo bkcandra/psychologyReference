@@ -1,0 +1,387 @@
+﻿@using Microsoft.AspNet.Identity;
+@using System.Security.Claims;
+@using ReferencingSystem.Model;
+@{
+    ViewBag.Title = "My References";
+    var userId = User.Identity.GetUserId();
+    UserSubscription uSub = new RsContext().UserSubscription.Where(x => x.UserId == userId).FirstOrDefault();
+}
+<header class="main-header">
+    <div class="container">
+        <h1 class="page-title">@ViewBag.Title</h1>
+    </div>
+</header>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            @Html.Partial("_ApplicationLinkPartial", 1)
+        </div>
+        <div class="col-md-9">
+            <div class="col-md-12">
+                <h3>My References</h3>
+            </div>
+            <div id="DivMessage" class="col-md-8">
+                <p class="em-primary">@ViewBag.StatusMessage</p>
+                <p class="em-primary">@Html.ValidationSummary(true, "", new { @class = "text-danger" })</p>
+              
+                @{
+                    var roles = ((ClaimsIdentity)User.Identity).Claims
+                    .Where(c => c.Type == ClaimTypes.Role)
+                    .Select(c => c.Value);
+
+                    if (new ReferencingSystem.Core.BF.BusinessFunctionComponents().UserSubscriptionRequired(roles))
+                    {
+                        if (uSub == null)
+                        {
+                            uSub = new UserSubscription();
+                        }
+                        if (uSub.UserId == null)
+                        {
+                            @Html.Partial("SubscribeInfoPartial")
+                        }
+
+                    }
+                }
+            </div>
+            <div class="col-md-4 pull-right">
+                @if (uSub.UserId == null)
+                {
+                    <button id="btnNewRef" class="btn btn-ar btn-default pull-right margin-20" disabled="true">New Reference (disabled)</button>
+                    <button id="btnCancelRef" class="btn btn-ar btn-primary pull-right margin-20" disabled="true">Cancel</button>
+                }
+                else
+                {
+                    <button id="btnNewRef" class="btn btn-ar btn-primary pull-right margin-20">New Reference</button>
+                    <button id="btnCancelRef" class="btn btn-ar btn-primary pull-right margin-20">Cancel</button>
+                }
+
+            </div>
+            <div id="NewRef" class="col-md-12 panel panel-default">
+                <div class="panel-body">
+                    @using (Html.BeginForm("", "References", FormMethod.Post, new { id = "initialRefForm" }))
+                    {
+                        if (User.Identity.IsAuthenticated)
+                        {
+                            @Html.Hidden("UserId", userId)
+                        }
+                        @Html.AntiForgeryToken()
+
+                        <div class="col-md-12">
+                            <div id="confirmEmail" class="form-group">
+                                <label for="exampleInputEmail1">Referee Email Address</label>
+                                @Html.TextBox("RefereeEmail", "", new { @class = "form-control", type = "Email", placeholder = "Referee email address" })
+                                @Html.ValidationMessage("RefereeEmail", new { @class = "text-danger" })
+                                @Html.ValidationMessage("Course", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div id="confirmNotes" class="form-group">
+                                <label>Notes</label>
+                                @Html.TextArea("Note", "", new { @class = "form-control", placeholder = "Note to referee" })
+                            </div>
+                        </div>
+                        <div id="CourseList">
+
+                        </div>
+                        <div class="col-md-12"></div>
+                        <div class="col-md-6">
+                            <div id="confirmCourse" class="row form-group">
+                                <div class="col-md-12">
+                                    <label>Course Level</label>
+                                </div>
+                                <div class="col-md-12 margin-bottom-10">
+                                    @{
+                        var cLevel = new ReferencingSystem.Model.RsContext().CourseLevel.ToList();
+                        if (cLevel != null)
+                        {
+                            @Html.DropDownList("CourseLevelId", new SelectList(cLevel, "Id", "Name", cLevel.First()), new { @class = "form-control" })
+                        }
+                                    }
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div id="confirmCourse" class="row form-group">
+                                <div class="col-md-12">
+                                    <label>Area of study</label>
+                                </div>
+                                <div class="col-md-10 margin-bottom-10">
+                                    @{
+                        var Course = new ReferencingSystem.Model.RsContext().Course.ToList();
+                        Course.Add(new Course() { Id = 0, Name = "Other" });
+                        if (Course != null)
+                        {
+                            @Html.DropDownList("CourseId", new SelectList(Course, "ID", "Name", Course.First()), new { @class = "form-control" })
+                        }}
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button" id="btnAddCourse" class="btn btn-default">
+                                        <span class="glyphicon glyphicon-plus" style="vertical-align:middle"></span>
+                                    </button>
+                                </div>
+                            </div>
+                            @Html.TextBox("CourseText", "", new { style = "display:none", @class = "form-control", type = "Email", placeholder = "Area of study" })
+
+                        </div>
+                        <div class="col-md-offset-6 col-md-6">
+                            <div class="form-group pull-right">
+                                <button type="button" id="btnRequest" class="btn btn-ar btn-primary">
+                                    Request Reference
+                                </button>
+                                <button id="btnConfirmSend" type="submit" class="btn btn-ar btn-primary">Confirm & Send Request</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="col-md-12">
+
+                @Html.Partial("UserReferenceListing", userId)
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+
+        $(document).ready(function () {
+            var isValid = @Html.Raw(Json.Encode(ViewData.ModelState.IsValid));
+            if (!isValid) {
+                toogle(true);
+            }
+            else
+            {
+                toogle(false);
+                $('#btnConfirmSend').hide();
+            }
+        });
+
+        $('#btnNewRef').click(function () {
+            toogle(true);
+        });
+
+        $('#btnCancelRef').click(function () {
+            toogle(false);
+        });
+
+        $('#btnRequest').click(function () {
+            $('#confirmEmail').addClass( "has-warning has-feedback");
+            $( '#confirmEmail' ).append( '<span class="glyphicon glyphicon-warning-sign form-control-feedback">' )
+
+            $('#confirmCourse').addClass( "has-warning has-feedback");
+
+            $('#confirmNotes').addClass( "has-success has-feedback");
+            $( '#confirmNotes' ).append( '<span class="glyphicon glyphicon-ok form-control-feedback">' );
+
+            $('#btnRequest').hide();
+            $('#btnConfirmSend').velocity("fadeIn");
+            $('[rel="popover"]').popover()
+            $("#initialRefForm").validate();
+        });
+
+        $('#btnConfirmSend').click(function () {
+
+        });
+
+        $('Select#CourseId').change(function(){
+            if($(this).val() == 0)
+                $("#CourseText").toggle();
+            else
+                $("#CourseText").hide();
+
+
+        });
+
+        $( '#ShareReferenceForm' ).submit( function( evt ) {
+            //prevent the browsers default function
+            evt.preventDefault();
+            //grab the form and wrap it with jQuery
+            var $form = $( this );
+            //if client side validation fails, don't do anything
+            if( !$form.valid() ) return;
+            //send your ajax request
+            $.ajax( {
+                type: $form.prop( 'method' ),
+                url: $form.prop( 'action' ),
+                data: $form.serialize(),
+                dataType: "json",
+                traditional: true,
+                success: function( response ) {
+                    $('#shareModal').modal('hide');
+                    if(response.Status)
+                    {
+                        $('#DivMessage').append('  <div class="alert alert-success" style="display:none"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><strong><i class="fa fa-check"></i> Success!</strong> '+response.Message +'</div>');
+                        $('.alert-success').fadeIn();
+                    }
+                    else
+                    {
+                        $('#DivMessage').append('<div class="alert alert-danger" style="display:none"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><strong><i class="fa fa-times"></i> Error!</strong>' +response.Message +'</div>');
+                        $('.alert-danger').fadeIn();
+                    }
+                },
+                error: function (reponse) {
+                    $('#shareModal').modal('hide');
+                }
+            });
+            alertTimeout(2000);
+        });
+
+        function alertTimeout(wait){
+            setTimeout(function(){
+                $('.alert-danger').velocity("fadeOut", { delay: 500, duration: 1000});
+            }, wait);
+            $('.alert-danger').remove();
+        }
+
+        $('.ShareReference').click(function () {
+            var refId = $(this).siblings("input[class='refId']").val();
+            var refTrans = $(this).siblings("input[class='refTrans']").val();
+
+            var url = '@Url.Content("~/API/GetReferenceShareRecords")'
+            url = url + "?Id="+refId+"&transId="+refTrans;
+
+            $.ajax(
+                {   type: 'Get',
+                    url: url,
+                    success: function (data) {
+                        //set initial share reference info
+                        $('#ShareTransId').val(refTrans);
+                        $("#UniversitySharedTable tbody tr").remove();
+                        $("#ShareDestination :input[name=UniversityId]").remove();
+                        $.each(data.ShareList, function(i, item) {
+                            $('<input>').attr({
+                                type: 'hidden',
+                                name: 'SharedUniversity',
+                                value: item.UniversityId
+                            }).appendTo('#ShareDestination');
+                            i++;
+
+                            $('#RowIndex').val(i);
+                            $('#UniversitySharedTable tbody').append(' <tr name='+item.UniversityId+'><td>'+ i+'</td><td>'+ item.CreatedDate +'</td><td>'+ item.UniversityName +'</td></tr>');
+                        });
+                    },
+                    error: function (reponse) {
+
+                    }
+                });
+            $('#shareModal').modal('show');
+        });
+
+
+        $("#btnAddCourse").click(function () {
+
+            var courseId="";
+            var courseLevelId="";
+            var CourseText ="";
+            $('select[name=CourseId]').each(function(){
+                courseId = $(this).val();
+                if($(this).val() == 0)
+                    CourseText = $("#CourseText").val();
+            });
+            $('select[name=CourseLevelId]').each(function(){
+                courseLevelId = $(this).val();
+            });
+
+
+
+
+            var url = "../References/AddCourse";
+
+            $.ajax({
+                url: url,
+                cache: false,
+                type: "POST",
+                data :{
+                    courseId: courseId,
+                    courseLevelId:courseLevelId,
+                    CourseText: CourseText
+                },
+                success: function (data) {
+                    if(data.status != false)
+                    {
+                        $('#CourseList').append(data);
+                        $('#CourseList').velocity("fadeIn");
+                    }
+                    else
+                    {  $('#DivMessage').append('<div class="alert alert-danger" style="display:none"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><strong><i class="fa fa-times"></i> Error!</strong> ' + data.Message +'</div>');
+                    $('.alert-danger').fadeIn();
+                    }
+                        
+                },
+                error: function (reponse) {
+                    alert("error : " + reponse);
+                }
+            });
+            alertTimeout(2000);
+        });
+
+        $("#btnAddUniversity").click(function () {
+            $("#yourdropdownid ").text();
+            var theValue="";
+            var theText="";
+            theText = $("#University option:selected").text()
+
+
+            if(theValue == '')
+                theValue = $('select[name=University]').val();
+
+            var exist = false;
+            if($('#ShareDestination').find("input").length)
+            {
+                $("#ShareDestination  :input[name='UniversityId']").each(function(){
+                    if($(this).val() == theValue)
+                        exist=true;
+
+                    var el = $("#UniversitySharedTable tbody tr[name="+theValue+"]")
+                    el.addClass( "danger" );
+                    setTimeout(    function() { el.removeClass('danger'); },    1000);
+
+                });
+                $("#ShareDestination  :input[name='SharedUniversity']").each(function(){
+                    if($(this).val() == theValue)
+                        exist=true;
+
+                    var el = $("#UniversitySharedTable tbody tr[name="+theValue+"]")
+                    el.addClass( "danger" );
+                    setTimeout(    function() { el.removeClass('danger'); },    1000);
+
+                });
+            }
+            if(!exist)
+            {
+                var next = $('#RowIndex').val();
+                next++;
+                //appending input value
+                $('<input>').attr({
+                    type: 'hidden',
+                    name: 'UniversityId',
+                    value: theValue
+                }).appendTo('#ShareDestination');
+                //appending row to UniversitySharedTable
+                $('#UniversitySharedTable tbody').append('<tr name='+theValue+'><td>'+next+'</td><td>New</td><td>'+theText+'</td></tr>').children(':last').hide().velocity("fadeIn", { duration: 500 });;
+                $('#RowIndex').val(next)
+            }
+        });
+
+        function toogle(show) {
+            if (show) {
+                $('#btnCancelRef').velocity("fadeIn");
+                $('#btnConfirmSend').hide();
+                $('#NewRef').velocity("slideDown", { delay: 300, duration: "slow" });
+                $('#btnNewRef').hide();
+            }
+            else {
+
+
+                $('#btnCancelRef').hide();
+                $('#NewRef').velocity("slideUp", { delay: 300, duration: "fast" });
+                $('#btnNewRef').velocity("fadeIn");
+            }
+        }
+    </script>
+}

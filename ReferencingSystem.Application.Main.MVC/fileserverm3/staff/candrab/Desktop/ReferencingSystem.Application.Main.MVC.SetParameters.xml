@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <setParameter name="IIS Web Application Name" value="Default Web Site/ReferencingSystem.Application.Main.MVC_deploy" />
+  <setParameter name="RsContext-Web.config Connection String" value="Data Source=182.160.159.178;Initial Catalog=RefSystem;User ID=HCOwner;Password=Just1VIPOwner;MultipleActiveResultSets=True;Application Name=EntityFramework" />
+</parameters>

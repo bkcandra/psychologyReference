@@ -1,0 +1,281 @@
+﻿@model ReferencingSystem.Model.Reference
+@using System.Linq;
+@using System.Data.Entity;
+@{
+    ReferencingSystem.Model.RsContext db = new ReferencingSystem.Model.RsContext();
+
+    //var refereeProfile = db.UserProfiles.Where(x => x.UserId == Model.RefUserId).FirstOrDefault();
+    //var studentProfile = db.UserProfiles.Where(x => x.UserId == Model.UserId).FirstOrDefault();
+    //var studentMembership = db.AspNetUsers.Where(x => x.Id == Model.UserId).FirstOrDefault();
+    //var RefForm = db.RefForm.Where(x => (x.UserType == (int)ReferencingSystem.Utility.SystemConstants.RefereeType.Professional && x.IsActive)).FirstOrDefault();
+    //var FormQuestions = db.Question.Where(x => x.FormId == RefForm.Id).OrderBy(x => x.Order).ToList();
+    
+    //var FQIds = FormQuestions.Select(x => x.Id).ToList();
+    //var FQoptions = db.QuestionOption.Where(x => FQIds.Contains(x.QuestionId)).ToList();
+    //var Courses = db.Course.ToList();
+   
+    //var cLevel = db.CourseLevel.ToList();
+    
+    var FormAnswer = Model.ReferenceAnswer;
+    var refereeProfile = db.UserProfiles.Where(x => x.UserId == Model.RefUserId).FirstOrDefault();
+    var studentProfile = db.UserProfiles.Where(x => x.UserId == Model.UserId).FirstOrDefault();
+    var studentMembership = db.AspNetUsers.Where(x => x.Id == Model.UserId).FirstOrDefault();
+    var RefForm = db.RefForm.Where(x => x.Id == Model.FormId).Include(x => x.Question).FirstOrDefault();
+    var FormQuestions = RefForm.Question.OrderBy(x => x.Order).ToList();
+    var FQIds = FormQuestions.Select(x => x.Id).ToList();
+    var FQoptions = db.QuestionOption.Where(x => FQIds.Contains(x.QuestionId)).ToList();
+    var Courses = db.Course.ToList();
+    var cLevel = db.CourseLevel.ToList();
+    var files = Model.ReferenceFiles;
+}
+<style>
+    .noBorder > thead > tr > th, .noBorder > tbody > tr > th, .noBorder > tfoot > tr > th, .noBorder > thead > tr > td, .noBorder > tbody > tr > td, .noBorder > tfoot > tr > td {
+        border: none !important;
+    }
+</style>
+<div class="col-md-offset-1">
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+</div>
+<div class="col-md-12">
+
+    <div class="row">
+        <div class="col-md-12">
+            <h4> Applicant Details</h4>
+            <table class="table noBorder">
+                <tr>
+                    <td class="col-md-6"><label>family Name : @studentProfile.LastName</label></td>
+                    <td class="col-md-6"><label>Given Names : @studentProfile.FirstName</label></td>
+                </tr>
+                <tr>
+                    <td><label for="">Contact Telephone : @studentProfile.Contact</label></td>
+                    <td><label for="Contact">Email : @studentMembership.Email</label></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h4> Referee Details</h4>
+            <table class="table noBorder">
+                <tr>
+                    <td class="col-md-6"><label>Referee's Name : @(refereeProfile.FirstName + " " + refereeProfile.LastName)</label></td>
+                    <td class="col-md-6"><label>Position : @refereeProfile.Position</label></td>
+                </tr>
+                <tr>
+                    <td class="col-md-12" colspan="2"><label>Organisation : @refereeProfile.InstitutionName</label></td>
+                </tr>
+                <tr>
+                    <td class="col-md-6"><label>Telephone : @refereeProfile.Contact</label></td>
+                    <td class="col-md-6"><label>Email : @Model.RefEmail</label></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <input type="hidden" name="ReferenceId" value="@Model.Id" />
+        <input type="hidden" name="RefFormId" value="@RefForm.Id" />
+        <input type="hidden" name="transId" value="@Model.TransId" />
+        @foreach (var item in FormQuestions)
+        {
+            var answerIndex = item.Order;
+
+            if (item.Type == (int)ReferencingSystem.Utility.SystemConstants.QuestionType.TextQuestion)
+            {
+
+                var itmAnswer = FormAnswer.Where(x => x.QuestionId == item.Id).FirstOrDefault();
+                if (itmAnswer != null)
+                {
+                    <div class="form-group">
+                        <input type="hidden" name="answer.Index" value="@answerIndex" />
+                        @Html.Hidden("answer[" + @answerIndex + "].QuestionId", item.Id)
+                        @Html.Hidden("answer[" + @answerIndex + "].ReferenceId", Model.Id)
+                        <div class="col-md-12">
+                            <label>@item.Text</label>
+
+
+                            @if (!string.IsNullOrEmpty(itmAnswer.Answer))
+                            {
+                                <p>
+                                    @itmAnswer.Answer
+                                </p>
+                            }
+                        </div>
+                    </div>
+                }
+            }
+            else if (item.Type == (int)ReferencingSystem.Utility.SystemConstants.QuestionType.MultipleChoiceSelectOne)
+            {
+                var itemFQoptions = FQoptions.Where(x => x.QuestionId == item.Id).OrderBy(x => x.Order).ToList();
+                if (!itemFQoptions.Any())
+                { continue; }
+
+                if (itemFQoptions.FirstOrDefault().QuestionGroupId != 0)
+                {
+                    <div class="form-group ">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    @foreach (var opt in itemFQoptions)
+                                    {
+                                        <th>
+                                            @opt.Text
+                                        </th>
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    var QGroup = FormQuestions.Where(x => x.Group == item.Group).OrderBy(x => x.Order).ToList();
+                                    foreach (var it in QGroup)
+                                    {
+                                        var QoptImdex = Guid.NewGuid().ToString("N");
+                                        var itmAnswer = FormAnswer.Where(x => x.QuestionId == it.Id).FirstOrDefault();
+                                        if (itmAnswer != null)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @it.Text
+                                                    @Html.Hidden("answer[" + @QoptImdex + "].QuestionId", it.Id)
+                                                    @Html.Hidden("answer[" + @QoptImdex + "].ReferenceId", Model.Id)
+                                                    <input type="hidden" name="answer.Index" value="@QoptImdex" />
+                                                </td>
+                                                @foreach (var optA in itemFQoptions)
+                                                {
+                                                    <td style="text-align:center">
+
+
+                                                        @if (itmAnswer.Answer == optA.Id.ToString())
+                                                        {
+                                                            <p>
+                                                                <i class="fa fa-check"></i>
+                                                            </p>
+                                                        }
+                                                    </td>
+                                                }
+                                            </tr>
+                                        }
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    var itmAnswer = FormAnswer.Where(x => x.QuestionId == item.Id).FirstOrDefault();
+                    if (itmAnswer != null)
+                    {
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <label for="RefFirstName">@item.Text</label>
+
+                                <input type="hidden" name="answer.Index" value="@answerIndex" />
+                                @Html.Hidden("answer[" + @answerIndex + "].QuestionId", item.Id)
+                                @Html.Hidden("answer[" + @answerIndex + "].ReferenceId", Model.Id)
+                                @foreach (var opt in itemFQoptions)
+                                {
+                                    var newID = Guid.NewGuid().ToString("N");
+                                    if (itmAnswer.Answer == opt.Text)
+                                    {
+                                        <p>
+                                            @opt.Text
+                                        </p>
+                                    }
+                                }
+
+                            </div>
+                        </div>
+                    }
+                }
+
+            }
+            else if (item.Type == (int)ReferencingSystem.Utility.SystemConstants.QuestionType.MultipleChoiceSelectMultiple)
+            {
+                var itemFQoptions = FQoptions.Where(x => x.QuestionId == item.Id).OrderBy(x => x.Order).ToList();
+
+                <div class="form-group">
+                    <input type="hidden" name="answer.Index" value="@answerIndex" />
+                    @Html.Hidden("answer[" + @answerIndex + "].QuestionId", item.Id)
+                    @Html.Hidden("answer[" + @answerIndex + "].ReferenceId", Model.Id)
+                    <div class="col-md-12">
+                        <label for="RefFirstName">@item.Text</label>
+                        <div class="row">
+
+                            @foreach (var opt in itemFQoptions)
+                            {
+                                @Html.CheckBox("answer[" + @answerIndex + "].Answer", false, new { @class = "form-control" })
+                            }
+                        </div>
+
+                    </div>
+                </div>
+            }
+            else if (item.Type == (int)ReferencingSystem.Utility.SystemConstants.QuestionType.SelectCourseAdmission)
+            {
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label for="RefFirstName">@item.Text</label>
+                        <div class="row">
+
+                            @foreach (var c in Model.ReferenceCourse)
+                            {
+                                var cLName = "";
+                                var cL = cLevel.Where(x => x.Id == c.CourseLevelId).FirstOrDefault();
+                                if (cL == null)
+                                {
+                                    cLName = "Unknown course level";
+                                }
+                                else
+                                {
+                                    cLName = cL.Name;
+                                }
+                                if (c.CourseId == 0)
+                                {
+                                    <div class="col-md-4">
+                                        @Html.CheckBox(c.CourseText, true, new { disabled = true }) @cLName -  @c.CourseText
+                                    </div>
+                                }
+                                else
+                                {
+                                    var Course = Courses.Where(x => x.Id == c.CourseId).FirstOrDefault();
+                                    var cName = "";
+                                    if (Course == null)
+                                    {
+                                        cName = "Unknown course";
+                                    }
+                                    else
+                                    {
+                                        cName = Course.Name;
+                                    }
+                                    <div class="col-md-4">
+                                        @Html.CheckBox(cName, true, new { disabled = true })@cLName -  @cName
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+@if (files.Any())
+{
+    <hr />
+    <h4>Supporting Documents</h4>
+    <div class="col-md-12">
+        <ul class="dl-horizontal">
+            @foreach (var item in files)
+            {
+                <li>
+                    @item.Title
+                </li>
+            }
+        </ul>
+    </div>
+}
+
+
+

@@ -1,0 +1,69 @@
+﻿@model ReferencingSystem.Model.Reference
+
+@{
+    Layout = null;
+    ViewBag.Title = "Reference viewer";
+    var userProfile = new ReferencingSystem.Model.RsContext().UserProfiles.Where(x => x.UserId == Model.RefUserId).FirstOrDefault();
+    if (ViewContext.RouteData.Values["controller"].ToString() == "Viewer")
+    {
+        ViewBag.controller = "Viewer";
+    }
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/RsCss")
+
+
+    @{
+        if (userProfile.RefereeType == (int)ReferencingSystem.Utility.SystemConstants.RefereeType.Academic)
+        {
+            ViewBag.title = "Confidential Academic Referee Report";
+        }
+        else if (userProfile.RefereeType == (int)ReferencingSystem.Utility.SystemConstants.RefereeType.Professional)
+        {
+
+            ViewBag.title = "Confidential Professional Referee Report";
+        }
+
+
+    }
+</head>
+<body>
+    <div class="container">
+        <div class="row margin-bottom-25">
+            <div class="col-md-12 ">
+                <img class="pull-left" src="@Url.Content("~/Content/img/headerLogo.png")" alt="APAC logo" />
+                <div class="pull-left">
+                    <h2>@ViewBag.title</h2>
+                    <strong>for admission into an Australian Psychology Accreditation Council accredited Professional Master's Program.</strong>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <p>All referee's report are treated in strictest confidence in accordance with Commonwealth and State privacy and freedom of information laws.</p>
+            </div>
+
+        </div>
+
+        <div class="row">
+            @{
+                if (userProfile.RefereeType == (int)ReferencingSystem.Utility.SystemConstants.RefereeType.Academic)
+                {
+                    @Html.Partial("AcademicFormPdfViewer", Model);
+                }
+                else if (userProfile.RefereeType == (int)ReferencingSystem.Utility.SystemConstants.RefereeType.Professional)
+                {
+
+                    @Html.Partial("ProfessionalFormPdfViewer", Model);
+                }
+            }
+        </div>
+    </div>
+</body>
+</html>

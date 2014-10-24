@@ -1,0 +1,111 @@
+﻿@model string
+@using ReferencingSystem.Model
+@using ReferencingSystem.Core.BF
+@{
+    var rs = new RsContext();
+    var UserRefs = rs.Reference.Where(x => (x.RefUserId == Model || x.RefEmail == User.Identity.Name)).ToList();
+    var stds = UserRefs.Select(x => x.UserId);
+    var stdsProfiles = rs.UserProfiles.Where(x => stds.Contains(x.UserId)).ToList();
+    var index = 1;
+}
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Applicant Name</th>
+                <th>Applicant institution</th>
+                <th>Modified date</th>
+                <th>Status</th>
+                <th>Notes</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in UserRefs)
+            {
+                item.Note.Replace("\n", Environment.NewLine);
+                var profile = stdsProfiles.Where(x => x.UserId == item.UserId).FirstOrDefault();
+
+                var RefIns = "";
+                if (!string.IsNullOrEmpty(item.RefUserId))
+                {
+                    var Refs = rs.UserProfiles.Where(x => x.UserId == item.RefUserId).FirstOrDefault();
+                    if (Refs != null)
+                    {
+                        RefIns = Refs.InstitutionName;
+                    }
+                }
+
+                <tr>
+                    <td>@index</td>
+                    <td>@profile.FirstName @profile.LastName </td>
+                    <td>@profile.InstitutionName</td>
+                    <td>@ReferencingSystem.Utility.SystemConstants.FromUnixTimeToLocal(item.ModifiedUTC).ToString("dd MMM yyyy")</td>
+                    <td>@ReferencingSystem.Application.Main.MVC.Controllers.ApplicationFunctions.GetWebRefStatus(item.Status)</td>
+                    <td>
+                        @Html.Hidden("note[" + item.TransId + "]", item.Note)
+                        @Html.Hidden("transId", item.TransId)
+                        <a class="noteLink">Show</a>
+                    </td>
+                    @if (item.Status < (int)ReferencingSystem.Utility.SystemConstants.Status.ReturnedToUser)
+                    {
+                        <td>@Html.ActionLink("Edit", "Edit", "Reference", new { Id = item.TransId }, null)</td>
+                    }
+                    @if (item.Status >= (int)ReferencingSystem.Utility.SystemConstants.Status.ReturnedToUser)
+                    {
+                        if (item.Status == (int)ReferencingSystem.Utility.SystemConstants.Status.DeniedByReferee)
+                        {
+                            <td></td>
+                        }
+                        else
+                        {
+                            <td>@Html.ActionLink("View", "Details", "Reference", new { Id = item.TransId }, null)</td>
+                        }
+                    }
+                </tr>
+
+                    index++;
+            }
+        </tbody>
+
+
+
+    </table>
+    @foreach (var item in UserRefs)
+    {
+        //create Note divs here
+        index++;
+    }
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="noteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">Reference Note</h4>
+            </div>
+            <div class="modal-body">
+                <input id="noteTrans" type="hidden" />
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Note</label>
+                    <textarea id="modalNote" class="form-control" rows="5" disabled="disabled" style=" height :200px; max-height: 200px; resize: none; "></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Reply</label>
+                    <textarea id="noteReply" class="form-control" rows="5" style=" height :150px; max-height: 150px; resize: none;" placeholder="Your message"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-ar btn-default" data-dismiss="modal">Cancel</button>
+                <button id="noteSave" type="submit" class="btn btn-ar btn-primary">&amp; Save</button>
+            </div>
+        </div>
+    </div>
+</div>

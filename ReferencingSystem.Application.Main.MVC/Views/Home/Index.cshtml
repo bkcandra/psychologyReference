@@ -1,0 +1,59 @@
+﻿@model  ReferencingSystem.Model.Pages
+@using Microsoft.AspNet.Identity;
+@using ReferencingSystem.Model;
+@using System.Security.Claims;
+@{
+    ViewBag.Title = Model.Title;
+}
+<header class="main-header">
+    <div class="container">
+        <h1 class="page-title">@ViewBag.Title</h1>
+    </div>
+</header>
+<div class="container">
+    <div class="row">
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="col-md-3">
+                @Html.Partial("_ApplicationLinkPartial", 0)
+
+            </div>
+            <div class="col-md-9">
+
+                @{
+                    @Html.Raw(Model.Content);
+                                            var roles = ((ClaimsIdentity)User.Identity).Claims
+                                            .Where(c => c.Type == ClaimTypes.Role)
+                                            .Select(c => c.Value);
+
+                                            if (new ReferencingSystem.Core.BF.BusinessFunctionComponents().UserSubscriptionRequired(roles))
+                                            {
+                                                var userId = User.Identity.GetUserId();
+                                                UserSubscription uSub = new RsContext().UserSubscription.Where(x => x.UserId == userId).FirstOrDefault();
+                                                if (uSub == null)
+                                                {
+                                                    uSub = new UserSubscription();
+                                                }
+                                                if (uSub.UserId == null)
+                                                {
+                                                    @Html.Partial("SubscribeInfoPartial")
+                                                }
+
+                                            }
+                }
+            </div>
+        }
+        else
+        {
+            <div class="col-md-12">
+                @Html.Raw(Model.Content)
+
+                @if (new ReferencingSystem.Core.BF.BusinessFunctionComponents().UserSubscriptionRequired(ReferencingSystem.Utility.SystemConstants.UserRole))
+                {
+                    @Html.Partial("SubscribeInfoPartial")
+                }
+            </div>
+        }
+
+    </div>
+</div>

@@ -1,0 +1,103 @@
+﻿@model UserSubscription
+@using ReferencingSystem.Model;
+@using System.Linq;
+@using System.Data.Entity;
+@{
+    var subs = new RsContext().SubscriptionPlan.ToList();
+    foreach (var item in subs)
+    {
+        item.Name = item.Name + " - AU $" + item.Price;
+    }
+    var userPlan = subs.Where(x => x.Id == Model.subscriptionPlanId).FirstOrDefault();
+}
+<div class="row">
+    <div class="col-md-6">
+        <h3>My Subscription</h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-horizontal" role="form">
+                    @if (Model.UserId != null)
+                    {
+                        if (userPlan != null)
+                        {
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-4 ">Your plan</label>
+                                <div class="col-sm-8">
+                                    @userPlan.Name
+                                </div>
+                            </div>
+                        }
+
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-4 ">Purchase date</label>
+                            <div class="col-sm-8">
+                                @ReferencingSystem.Utility.SystemConstants.FromUnixTimeToLocal(Model.CreatedUTC).ToString("dd MMM yyyy")
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-4 ">Plan expiry date</label>
+                            <div class="col-sm-8">
+                                @ReferencingSystem.Utility.SystemConstants.FromUnixTimeToLocal(Model.ExpiryUTC).ToString("dd MMM yyyy")
+                            </div>
+                        </div>
+
+                    }
+                    else
+                    {
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-5 ">Your plan</label>
+                            <div class="col-sm-7">
+                                <span>
+                                    You have no plan
+                                </span>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+    @if (Model.UserId == null)
+    {
+        <div class="col-md-6 ">
+            <h3>Purchase / Renew</h3>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-horizontal" role="form">
+                        @using (Html.BeginForm("index", "Order", FormMethod.Post))
+                        {
+
+                            <div class="form-group">
+
+                                @if (subs.Any())
+                                {
+                                    if (subs.Count > 1)
+                                    {
+                                        <div class="col-sm-10">
+                                            @Html.DropDownList("Id", new SelectList(subs, "Id", "Name"), "-- select one --", new { @class = "form-control" })
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="col-sm-8">
+                                            @Html.Label(subs.FirstOrDefault().Name)
+                                            @Html.Hidden("Id", subs.FirstOrDefault().Id)
+                                            @Html.Label("AU $ " + subs.FirstOrDefault().Price.ToString(), new { @class = "pull-right" })
+                                        </div>
+                                    }
+                                }
+                            </div>
+                            <div class="form-group">
+                                <div class=" col-sm-12">
+                                    <input type="image" src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/checkout-logo-medium.png">
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    }
+</div>

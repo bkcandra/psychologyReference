@@ -1,0 +1,33 @@
+﻿@model  ReferencingSystem.Application.Main.MVC.Models.InitialCourse
+@{
+    var ent = new ReferencingSystem.Model.RsContext();
+    var Course = new ReferencingSystem.Model.Course();
+    if(Model.CourseId != 0)
+    {
+        Course = ent.Course.Where(x => x.Id == Model.CourseId).FirstOrDefault();
+    }
+    else
+    {
+        Course.Id = 0;
+        Course.Name = Model.CourseText;
+    }
+    var cLevel = ent.CourseLevel.Where(x => x.Id == Model.CourseLevelId).FirstOrDefault();
+    if (Course != null && cLevel != null)
+    {
+        var index = Guid.NewGuid();
+        <div class="col-md-6">
+            <div class="alert alert-info ">
+                <input type="hidden" name="ReferenceCourse.Index" value="@index" />
+                <input type="hidden" name="ReferenceCourse[@index].CourseId" value="@Course.Id" />
+                <input type="hidden" name="ReferenceCourse[@index].CourseLevelId" value="@cLevel.Id" />
+                <input type="hidden" name="ReferenceCourse[@index].CourseText" value="@Model.CourseText" />
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                @cLevel.Name - @Course.Name
+            </div>
+        </div>
+
+
+    }
+}
+
+

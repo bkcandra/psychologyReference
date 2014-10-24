@@ -1,0 +1,140 @@
+﻿@model string
+@using ReferencingSystem.Model
+@using ReferencingSystem.Core.BF
+@{
+    var rs = new RsContext();
+    var UserRefs = rs.Reference.Where(x => x.UserId == Model).ToList();
+    var index = 1;
+}
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Referee Name</th>
+                <th>Institution Name</th>
+                <th>Date Applied</th>
+                <th>Status</th>
+                <th>Action</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in UserRefs)
+            {
+                var RefIns = "";
+                if (!string.IsNullOrEmpty(item.RefUserId))
+                {
+                    var Refs = rs.UserProfiles.Where(x => x.UserId == item.RefUserId).FirstOrDefault();
+                    if (Refs != null)
+                    {
+                        RefIns = Refs.InstitutionName;
+                    }
+                }
+                <tr>
+                    <td>@index</td>
+                    <td>@item.RefEmail</td>
+                    <td>@RefIns</td>
+                    <td>@ReferencingSystem.Utility.SystemConstants.FromUnixTimeToLocal(item.ModifiedUTC).ToString("dd MMM yyyy")</td>
+                    <td>@ReferencingSystem.Application.Main.MVC.Controllers.ApplicationFunctions.GetWebRefStatus(item.Status)</td>
+                    <td>Notes link</td>
+                    <td>
+                        <input type="hidden" value="@item.Id" class="refId" />
+                        <input type="hidden" value="@item.TransId" class="refTrans" />
+                        @if (item.Status >= (int)ReferencingSystem.Utility.SystemConstants.Status.ReturnedToUser)
+                        {
+                            if (item.Status != (int)ReferencingSystem.Utility.SystemConstants.Status.DeniedByReferee)
+                            {
+                                <a class="btn btn-primary btn-sm ShareReference">
+                                    Share
+                                </a>
+                            }
+                            else
+                            {
+
+                            }
+                        }
+                    </td>
+
+                </tr>
+                        index++;
+            }
+        </tbody>
+    </table>
+    @foreach (var item in UserRefs)
+    {
+        //create Note divs here
+        index++;
+    }
+</div>
+
+<div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">Share Reference</h4>
+            </div>
+            @using (Html.BeginForm("ShareCourseJson", "References", FormMethod.Post, new { id = "ShareReferenceForm" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <table class="table" id="UniversitySharedTable">
+                                    <thead>
+                                        <tr class="noDanger">
+                                            <th>#</th>
+                                            <th>Shared</th>
+                                            <th>University</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>15 Oct 2014</td>
+                                            <td>DeakinPrime</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>University</label>
+                                </div>
+                                <div id="ShareDestination" class="col-md-12">
+                                    @Html.Hidden("RowIndex", "")
+                                    @Html.Hidden("ShareTransId", "")
+                                    @Html.Hidden("User", User.Identity.Name)
+                                </div>
+                                <div class="col-md-10 margin-bottom-10">
+                                    @{
+                var University = new ReferencingSystem.Model.RsContext().University.ToList();
+                if (University != null)
+                {
+                    @Html.DropDownList("University", new SelectList(University, "Id", "Name", University.First()), new { @class = "form-control" })
+                }
+                                    }
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button" id="btnAddUniversity" class="btn btn-default">
+                                        <span class="glyphicon glyphicon-plus" style="vertical-align:middle"></span>
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-ar btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-ar btn-primary">Confirm & Share Reference</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

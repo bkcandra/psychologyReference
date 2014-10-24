@@ -1,0 +1,94 @@
+﻿@model ReferencingSystem.Application.Main.MVC.Models.OrderModel
+@using ReferencingSystem.Model,
+@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "Confirm";
+    var userId = User.Identity.GetUserId();
+    var profile = new RsContext().UserProfiles.Where(x => x.UserId == userId).FirstOrDefault();
+}
+<header class="main-header">
+    <div class="container">
+        <h1 class="page-title">@ViewBag.Title</h1>
+
+
+    </div>
+</header>
+
+<div class="container printable">
+
+
+    <!-- INVOICE HEADER -->
+    <div class="row">
+
+        <div class="col-sm-6">
+
+        </div>
+        <div class="col-sm-6 text-right">
+            <p>
+                #@Model.token • <strong>@DateTime.Now.ToString("dd MMM yyyy") </strong>
+                <br>
+                Please confirm your payment.
+            </p>
+        </div>
+
+    </div>
+    <!-- /INVOICE HEADER -->
+
+    <hr class="margin-top10 margin-bottom10"><!-- separator -->
+    <!-- DETAILS -->
+    <div class="row">
+
+        <div class="col-sm-6">
+            <div class="row">
+                <div class="col-md-12">
+                    <h4><strong>Client</strong> Details</h4>
+                    <ul class="list-unstyled">
+                        <li><strong>First Name:</strong> @profile.FirstName</li>
+                        <li><strong>Last Name:</strong> @profile.LastName</li>
+                        <li><strong>University:</strong> @profile.InstitutionName</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <h4><strong>Contact</strong> Details</h4>
+            <address>
+                @Model.
+                @ViewBag.<br>
+                Phone: 1-800-565-2390 <br>
+                Fax: 1-800-565-2390 <br>
+                Email:support@yourname.com
+            </address>
+
+        </div>
+
+    </div>
+    <!-- /DETAILS -->
+    <div class="row">
+
+
+        <div class="col-sm-offset-6 col-sm-6">
+            <h4><strong>Payment</strong> Details</h4>
+            <ul class="list-unstyled invoice-total-info">
+                <li><strong>Payment method</strong> Paypal</li>
+
+                <li><strong>Total</strong> A$ @Model.amount</li>
+            </ul>
+
+            <div class="padding20">
+                <button class="btn btn-primary">Confirm Payment</button>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+</div>

@@ -1,0 +1,104 @@
+﻿@model ReferencingSystem.Model.Reference
+
+@{
+
+    ViewBag.Title = "Edit Reference";
+    var userProfile = new ReferencingSystem.Model.RsContext().UserProfiles.Where(x => x.UserId == Model.RefUserId).FirstOrDefault();
+}
+
+<header class="main-header">
+    <div class="container">
+        <h1 class="page-title">@ViewBag.Title</h1>
+    </div>
+</header>
+<div class="container">
+    <div class="row">
+        @{
+            if (userProfile.RefereeType == (int)ReferencingSystem.Utility.SystemConstants.RefereeType.Academic)
+            {
+                @Html.Partial("AcademicFormEditor", Model);
+            }
+            else if (userProfile.RefereeType == (int)ReferencingSystem.Utility.SystemConstants.RefereeType.Professional)
+            {
+                @Html.Partial("ProfessionalFormEditor", Model);
+
+            }
+            @section scripts
+                {
+                <script>
+                    $("#FakeSaveRef").click(function () {
+                        $("#SaveRef").click();
+                    });
+
+                    $("#FakePreviewRef").click(function () {
+                        $("#PreviewRef").click();
+                    });
+                    $("#FakeDenyRef").click(function () {
+                        $("#DenyRef").click();
+                    });
+
+
+                    $('.flDelete').on('click', function () {
+                        var name = $(this).siblings("input[class='fName']").val();
+                        var size = $(this).siblings("input[class='fSize']").val();
+                        var transId = $("#transId").val();
+
+
+                        $.ajax({
+                            type: 'POST',
+                            url: '@Url.Action("DeleteFile","Reference")',
+                            data: "fName=" + name + "&transId=" + transId + "&fSize=" + size,
+                            dataType: 'html'
+                        });
+
+                        $(this).closest("input[name='id']").val()
+                        $(this).closest('li').fadeOut();
+                        $(this).closest('li').remove();
+                    });
+                    // myDropzone is the configuration for the element that has an id attribute
+                    // with the value my-dropzone (or myDropzone)
+                    Dropzone.options.myDropzone = {
+                        init: function () {
+                            this.on("addedfile", function (file) {
+
+                                // Create the remove button
+                                var removeButton = Dropzone.createElement("<button>Remove file</button>");
+
+                                // Capture the Dropzone instance as closure.
+                                var _this = this;
+
+                                // Listen to the click event
+                                removeButton.addEventListener("click", function (e) {
+                                    // Make sure the button click doesn't submit the form:
+                                    e.preventDefault();
+                                    e.stopPropagation();
+
+                                    // Remove the file preview.
+                                    _this.removeFile(file);
+                                    // If you want to the delete the file on the server as well,
+                                    // you can do the AJAX request here.
+
+
+                                    var name = file.name;
+                                    var size = file.size;
+                                    var transId = $("#transId").val();
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: '@Url.Action("DeleteFile","Reference")',
+                                        data: "fName=" + name + "&transId=" + transId + "&fSize=" + size,
+                                        dataType: 'html'
+                                    });
+                                });
+
+                                // Add the button to the file preview element.
+                                file.previewElement.appendChild(removeButton);
+                            });
+                        }
+
+                    };
+
+                </script>
+            }
+}
+    </div>
+</div>

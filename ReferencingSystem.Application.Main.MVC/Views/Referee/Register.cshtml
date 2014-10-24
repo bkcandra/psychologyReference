@@ -1,0 +1,199 @@
+﻿@model ReferencingSystem.Application.Main.MVC.Models.RefereeRegisterViewModel
+@{
+    ViewBag.Title = "Referee registration";
+    //var uniList = new ReferencingSystem.Model.RsContext().University.ToList();
+    var RefType = ReferencingSystem.Utility.SystemConstants.RetrieveRefereeType();
+}
+
+<header class="main-header">
+    <div class="container">
+        <h1 class="page-title">@ViewBag.Title</h1>
+    </div>
+</header>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="section-title no-margin-top">Create Account</h2>
+            <div class="panel panel-primary animated fadeInDown">
+                <div class="panel-heading">Register</div>
+                <div class="panel-body">
+                    @using (Html.BeginForm("Register", "Referee", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="col-md-offset-1">
+                            @Html.ValidationSummary("", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.ReferenceToken, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-10">
+                                @{
+                        if (string.IsNullOrEmpty(Model.ReferenceToken))
+                        {
+                            @Html.TextBoxFor(m => m.ReferenceToken, new { @class = "form-control", placeholder = "Reference Code" })
+                        }
+                        else
+                        {
+                            @Html.HiddenFor(m => m.ReferenceToken, new { @class = "form-control" })
+                                    @Html.DisplayFor(m => m.ReferenceToken, new { @class = "form-control" })
+                        }
+                                }
+                            </div>
+                        </div>
+
+                        @Html.HiddenFor(m => m.userprofile.UserId)
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email Address" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-10">
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-10">
+                                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "Confirm Password" })
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="form-group">
+                            @Html.Label("Name", new { @class = "col-md-2 control-label" })
+                            <div class="col-md-5">
+                                @Html.TextBoxFor(m => m.userprofile.FirstName, new { @class = "form-control", placeholder = "Given name" })
+                            </div>
+                            <div class="col-md-5">
+                                @Html.TextBoxFor(m => m.userprofile.LastName, new { @class = "form-control", placeholder = "Family name" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.userprofile.Contact, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(m => m.userprofile.Contact, new { @class = "form-control", placeholder = "Phone Number" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.userprofile.RefereeType, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-5">
+                                @Html.DropDownListFor(m => m.userprofile.RefereeType,
+         (new SelectList(RefType, "Value", "Text")), new { @class = "form-control" })
+                            </div>
+                            <div class="col-md-5">
+
+                            </div>
+                        </div>
+
+                        <div class="form-group" id="uniName">
+                            @Html.LabelFor(m => m.userprofile.UniversityId, new { Id = "InstitutionLabel", @class = "col-md-2 control-label" })
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(m => m.userprofile.InstitutionName, new { @class = "form-control", placeholder = "University Name" })
+                            </div>
+                        </div>
+                        <div id="AcademicSchool" class="form-group">
+                            @Html.LabelFor(m => m.userprofile.SchoolName, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(m => m.userprofile.SchoolName, new { @class = "form-control", placeholder = "School Name" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.userprofile.Position, new { @class = "col-md-2 control-label" })
+                            <div id="uniName" class="col-md-10">
+                                @Html.TextBoxFor(m => m.userprofile.Position, new { @class = "form-control", placeholder = "Position" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("Institution ID", new { @class = "col-md-2 control-label" })
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(m => m.userprofile.InstitutionId, new { @class = "form-control", placeholder = "Institution ID" })
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-offset-1 col-md-6">
+                                <label class="checkbox-inline">
+                                    @Html.CheckBoxFor(m => m.userprofile.AgreeToTerms)
+                                    I agree to the @Html.ActionLink("HODSPA reference request system terms", "TermsAndCondition", "Pages", null, null)
+                                </label>
+                            </div>
+                            <div class="col-md-5">
+                                <input type="submit" class="btn btn-ar btn-primary pull-right" value="Register" />
+                            </div>
+
+                        </div>
+                    }
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        var select = $('#userprofile_RefereeType').val();
+        $(document).ready(function () {
+            toogle(select);
+        });
+
+        $('#userprofile_RefereeType:first').change(function () {
+            $('#userprofile_InstitutionName').val("");
+            var select = $('#userprofile_RefereeType').val();
+            toogle(select);
+        })
+
+        function toogle(value) {
+            if (value == "1") {
+                $('#userprofile_UniversityID').velocity("fadeIn")
+                $('#uniName').velocity("fadeIn")
+                $('#AcademicSchool').velocity("fadeIn")
+                $('#userprofile_InstitutionName').attr("placeholder", "University Name");
+                $("#InstitutionLabel").text("University Name");
+            }
+            else if (value == "2") {
+                $('#userprofile_UniversityID').velocity("fadeOut")
+                $('#uniName').velocity("fadeIn")
+                $('#AcademicSchool').velocity("fadeOut")
+                $('#userprofile_InstitutionName').attr("placeholder", "Organisation Name");
+                $("#InstitutionLabel").text("Organisation Name");
+            }
+            else {
+                $('#userprofile_UniversityID').velocity("fadeOut")
+                $('#uniName').velocity("fadeOut")
+                $('#AcademicSchool').velocity("fadeOut")
+                $("#InstitutionLabel").text("some value");
+            }
+        }
+
+
+
+
+
+        //$('#userprofile_UniversityID:first').change(function () {
+        //    var uniId = $('#userprofile_UniversityID').val()
+        //    $.getJSON('/API/Rs/GetSchool?UniversityId=' + uniId, function (result) {
+        //        var ddl = $('#SchoolID');
+        //        ddl.empty();
+
+        //        $(document.createElement('option'))
+        //               .attr('value', 0)
+        //               .text("-- Select One --")
+        //               .appendTo(ddl);
+
+        //        $(result.school).each(function () {
+        //            $(document.createElement('option'))
+        //                .attr('value', this.Id)
+        //                .text(this.Name)
+        //                .appendTo(ddl);
+        //        });
+        //    });
+        //});
+    </script>
+}

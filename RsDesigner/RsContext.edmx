@@ -1,0 +1,1724 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="RefSystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+          <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ClaimType" Type="nvarchar(max)" />
+          <Property Name="ClaimValue" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CourseLevels">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CreatedUTC" Type="int" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar(max)" />
+          <Property Name="ModifiedUTC" Type="int" Nullable="false" />
+          <Property Name="ModifiedBy" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Courses">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CreatedUTC" Type="int" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar(max)" />
+          <Property Name="ModifiedUTC" Type="int" Nullable="false" />
+          <Property Name="ModifiedBy" Type="nvarchar(max)" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="CourseLevelId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DownloadRecords">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ReferenceShareRecordId" Type="int" Nullable="false" />
+          <Property Name="IpAddress" Type="nvarchar(max)" />
+          <Property Name="UserId" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CreatedUTC" Type="int" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="EmailSettings">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="EmailType" Type="int" Nullable="false" />
+          <Property Name="EmailTemplateId" Type="int" Nullable="false" />
+          <Property Name="ModifiedUTC" Type="int" Nullable="false" />
+          <Property Name="ModifiedBy" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="EmailTemplates">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmailName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="EmailSubject" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Emailcc" Type="nvarchar(max)" />
+          <Property Name="EmailBody" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="EmailIsHTML" Type="bit" Nullable="false" />
+          <Property Name="CreatedUTC" Type="int" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar(max)" />
+          <Property Name="ModifiedUTC" Type="int" Nullable="false" />
+          <Property Name="ModifiedBy" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Pages">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="TemplateId" Type="int" Nullable="false" />
+          <Property Name="MetaTag" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="MetaDescription" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="CreatedUTC" Type="int" Nullable="false" />
+          <Property Name="ModifiedUTC" Type="int" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="Content" Type="nvarchar(max)" />
+          <Property Name="Published" Type="bit" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PaymentRecords">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="token" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="PayerId" Type="nvarchar(max)" />
+          <Property Name="shippingAddress" Type="nvarchar(max)" />
+          <Property Name="amount" Type="nvarchar(max)" />
+          <Property Name="CreatedUTC" Type="int" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar(max)" />
+          <Property Name="ModifiedUTC" Type="int" Nullable="false" />
+          <Property Name="ModifiedBy" Type="nvarchar(max)" />
+          <Property Name="PlanId" Type="int" Nullable="false" />
+          <Property Name="Status" Type="nvarchar(max)" />
+          <Property Name="TransId" Type="nvarchar(max)" />
+          <Property Name="PNRef" Type="nvarchar(max)" />
+          <Property Name="Action" Type="nvarchar(max)" />
+          <Property Name="TransFee" Type="nvarchar(max)" />
+          <Property Name="TaxAmount" Type="nvarchar(max)" />
+          <Property Name="Completed" Type="bit" Nullable="false" />
+          <Property Name="Message" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="QuestionOptions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuestionId" Type="int" Nullable="false" />
+          <Property Name="Text" Type="nvarchar(max)" />
+          <Property Name="Order" Type="int" Nullable="false" />
+          <Property Name="QuestionGroupId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Questions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FormId" Type="int" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="Order" Type="int" Nullable="false" />
+          <Property Name="Group" Type="int" Nullable="false" />
+          <Property Name="Text" Type="nvarchar(max)" />
+          <Property Name="CreatedUTC" Type="int" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar(max)" />
+          <Property Name="ModifiedUTC" Type="int" Nullable="false" />
+          <Property Name="ModifiedBy" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="ReferenceAnswers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ReferenceId" Type="int" Nullable="false" />
+          <Property Name="QuestionId" Type="int" Nullable="false" />
+          <Property Name="Answer" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="ReferenceFiles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ReferenceId" Type="int" Nullable="false" />
+          <Property Name="FileByte" Type="varbinary(max)" />
+          <Property Name="ModifiedUTC" Type="int" Nullable="false" />
+          <Property Name="ModifiedBy" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="References">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RefEmail" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="RefUserId" Type="nvarchar" MaxLength="128" />
+          <Property Name="CourseID" Type="nvarchar(max)" />
+          <Property Name="Note" Type="nvarchar(max)" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="CreatedUTC" Type="int" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar(max)" />
+          <Property Name="ModifiedUTC" Type="int" Nullable="false" />
+          <Property Name="ModifiedBy" Type="nvarchar(max)" />
+          <Property Name="TransId" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Token" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" />
+          <Property Name="ExpiryDateUTC" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ReferenceShareRecords">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ReferenceId" Type="int" Nullable="false" />
+          <Property Name="LinkToken" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="SchoolID" Type="int" Nullable="false" />
+          <Property Name="ClickCount" Type="int" Nullable="false" />
+          <Property Name="CreatedUTC" Type="int" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar(max)" />
+          <Property Name="ModifiedUTC" Type="int" Nullable="false" />
+          <Property Name="ModifiedBy" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="RefForms">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Readable" Type="nvarchar(max)" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="CreatedUTC" Type="int" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar(max)" />
+          <Property Name="ModifiedUTC" Type="int" Nullable="false" />
+          <Property Name="ModifiedBy" Type="nvarchar(max)" />
+          <Property Name="UserType" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Schools">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UniversityId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="FullAddress" Type="nvarchar(max)" />
+          <Property Name="Contact" Type="nvarchar(max)" />
+          <Property Name="CreatedUTC" Type="int" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar(max)" />
+          <Property Name="ModifiedUTC" Type="int" Nullable="false" />
+          <Property Name="ModifiedBy" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="SubscriptionPlans">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Price" Type="int" Nullable="false" />
+          <Property Name="RequiredRoles" Type="nvarchar(max)" />
+          <Property Name="LengthValue" Type="int" Nullable="false" />
+          <Property Name="LengthType" Type="int" Nullable="false" />
+          <Property Name="CreatedUTC" Type="int" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar(max)" />
+          <Property Name="ModifiedUTC" Type="int" Nullable="false" />
+          <Property Name="ModifiedBy" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Universities">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="FullAddress" Type="nvarchar(max)" />
+          <Property Name="CreatedUTC" Type="int" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar(max)" />
+          <Property Name="ModifiedUTC" Type="int" Nullable="false" />
+          <Property Name="ModifiedBy" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="UserProfiles">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar(max)" />
+          <Property Name="Gender" Type="int" Nullable="false" />
+          <Property Name="Contact" Type="nvarchar(max)" />
+          <Property Name="AltContact" Type="nvarchar(max)" />
+          <Property Name="UniversityID" Type="int" />
+          <Property Name="SchoolID" Type="int" />
+          <Property Name="SchoolName" Type="nvarchar(max)" />
+          <Property Name="InstitutionId" Type="nvarchar(max)" />
+          <Property Name="AgreeToTerms" Type="bit" Nullable="false" />
+          <Property Name="CreatedUTC" Type="int" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar(max)" />
+          <Property Name="ModifiedUTC" Type="int" Nullable="false" />
+          <Property Name="ModifiedBy" Type="nvarchar(max)" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="InstitutionName" Type="nvarchar(max)" />
+          <Property Name="Position" Type="nvarchar(max)" />
+          <Property Name="RefereeType" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserSubscriptions">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="subscriptionPlanId" Type="int" Nullable="false" />
+          <Property Name="PaymentRecordId" Type="int" Nullable="false" />
+          <Property Name="ExpiryUTC" Type="int" Nullable="false" />
+          <Property Name="CreatedUTC" Type="int" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar(max)" />
+          <Property Name="ModifiedUTC" Type="int" Nullable="false" />
+          <Property Name="ModifiedBy" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetRoles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Courses_dbo_CourseLevels_CourseLevelId">
+          <End Role="CourseLevels" Type="Self.CourseLevels" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Courses" Type="Self.Courses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CourseLevels">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Courses">
+              <PropertyRef Name="CourseLevelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_DownloadRecords_dbo_ReferenceShareRecords_ReferenceShareRecordId">
+          <End Role="ReferenceShareRecords" Type="Self.ReferenceShareRecords" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="DownloadRecords" Type="Self.DownloadRecords" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReferenceShareRecords">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="DownloadRecords">
+              <PropertyRef Name="ReferenceShareRecordId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_QuestionOptions_dbo_Questions_QuestionId">
+          <End Role="Questions" Type="Self.Questions" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="QuestionOptions" Type="Self.QuestionOptions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Questions">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuestionOptions">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Questions_dbo_RefForms_FormId">
+          <End Role="RefForms" Type="Self.RefForms" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Questions" Type="Self.Questions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RefForms">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Questions">
+              <PropertyRef Name="FormId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ReferenceAnswers_dbo_References_ReferenceId">
+          <End Role="References" Type="Self.References" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ReferenceAnswers" Type="Self.ReferenceAnswers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="References">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ReferenceAnswers">
+              <PropertyRef Name="ReferenceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ReferenceFiles_dbo_References_ReferenceId">
+          <End Role="References" Type="Self.References" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ReferenceFiles" Type="Self.ReferenceFiles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="References">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ReferenceFiles">
+              <PropertyRef Name="ReferenceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_References_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="References" Type="Self.References" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="References">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ReferenceShareRecords_dbo_References_ReferenceId">
+          <End Role="References" Type="Self.References" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ReferenceShareRecords" Type="Self.ReferenceShareRecords" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="References">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ReferenceShareRecords">
+              <PropertyRef Name="ReferenceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Schools_dbo_Universities_UniversityId">
+          <End Role="Universities" Type="Self.Universities" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Schools" Type="Self.Schools" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Universities">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Schools">
+              <PropertyRef Name="UniversityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_UserProfiles_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserProfiles" Type="Self.UserProfiles" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserProfiles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_UserSubscriptions_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserSubscriptions" Type="Self.UserSubscriptions" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserSubscriptions">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_UserSubscriptions_dbo_PaymentRecords_PaymentRecordId">
+          <End Role="PaymentRecords" Type="Self.PaymentRecords" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserSubscriptions" Type="Self.UserSubscriptions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentRecords">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserSubscriptions">
+              <PropertyRef Name="PaymentRecordId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_UserSubscriptions_dbo_SubscriptionPlans_subscriptionPlanId">
+          <End Role="SubscriptionPlans" Type="Self.SubscriptionPlans" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserSubscriptions" Type="Self.UserSubscriptions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubscriptionPlans">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserSubscriptions">
+              <PropertyRef Name="subscriptionPlanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RefSystemModelStoreContainer">
+          <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CourseLevels" EntityType="Self.CourseLevels" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Courses" EntityType="Self.Courses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DownloadRecords" EntityType="Self.DownloadRecords" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmailSettings" EntityType="Self.EmailSettings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmailTemplates" EntityType="Self.EmailTemplates" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pages" EntityType="Self.Pages" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaymentRecords" EntityType="Self.PaymentRecords" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QuestionOptions" EntityType="Self.QuestionOptions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Questions" EntityType="Self.Questions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReferenceAnswers" EntityType="Self.ReferenceAnswers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReferenceFiles" EntityType="Self.ReferenceFiles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="References" EntityType="Self.References" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReferenceShareRecords" EntityType="Self.ReferenceShareRecords" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RefForms" EntityType="Self.RefForms" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Schools" EntityType="Self.Schools" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubscriptionPlans" EntityType="Self.SubscriptionPlans" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Universities" EntityType="Self.Universities" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserProfiles" EntityType="Self.UserProfiles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserSubscriptions" EntityType="Self.UserSubscriptions" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Courses_dbo_CourseLevels_CourseLevelId" Association="Self.FK_dbo_Courses_dbo_CourseLevels_CourseLevelId">
+            <End Role="CourseLevels" EntitySet="CourseLevels" />
+            <End Role="Courses" EntitySet="Courses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_DownloadRecords_dbo_ReferenceShareRecords_ReferenceShareRecordId" Association="Self.FK_dbo_DownloadRecords_dbo_ReferenceShareRecords_ReferenceShareRecordId">
+            <End Role="ReferenceShareRecords" EntitySet="ReferenceShareRecords" />
+            <End Role="DownloadRecords" EntitySet="DownloadRecords" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_QuestionOptions_dbo_Questions_QuestionId" Association="Self.FK_dbo_QuestionOptions_dbo_Questions_QuestionId">
+            <End Role="Questions" EntitySet="Questions" />
+            <End Role="QuestionOptions" EntitySet="QuestionOptions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Questions_dbo_RefForms_FormId" Association="Self.FK_dbo_Questions_dbo_RefForms_FormId">
+            <End Role="RefForms" EntitySet="RefForms" />
+            <End Role="Questions" EntitySet="Questions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ReferenceAnswers_dbo_References_ReferenceId" Association="Self.FK_dbo_ReferenceAnswers_dbo_References_ReferenceId">
+            <End Role="References" EntitySet="References" />
+            <End Role="ReferenceAnswers" EntitySet="ReferenceAnswers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ReferenceFiles_dbo_References_ReferenceId" Association="Self.FK_dbo_ReferenceFiles_dbo_References_ReferenceId">
+            <End Role="References" EntitySet="References" />
+            <End Role="ReferenceFiles" EntitySet="ReferenceFiles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_References_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_References_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="References" EntitySet="References" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ReferenceShareRecords_dbo_References_ReferenceId" Association="Self.FK_dbo_ReferenceShareRecords_dbo_References_ReferenceId">
+            <End Role="References" EntitySet="References" />
+            <End Role="ReferenceShareRecords" EntitySet="ReferenceShareRecords" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Schools_dbo_Universities_UniversityId" Association="Self.FK_dbo_Schools_dbo_Universities_UniversityId">
+            <End Role="Universities" EntitySet="Universities" />
+            <End Role="Schools" EntitySet="Schools" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_UserProfiles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_UserProfiles_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="UserProfiles" EntitySet="UserProfiles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_UserSubscriptions_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_UserSubscriptions_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="UserSubscriptions" EntitySet="UserSubscriptions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_UserSubscriptions_dbo_PaymentRecords_PaymentRecordId" Association="Self.FK_dbo_UserSubscriptions_dbo_PaymentRecords_PaymentRecordId">
+            <End Role="PaymentRecords" EntitySet="PaymentRecords" />
+            <End Role="UserSubscriptions" EntitySet="UserSubscriptions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_UserSubscriptions_dbo_SubscriptionPlans_subscriptionPlanId" Association="Self.FK_dbo_UserSubscriptions_dbo_SubscriptionPlans_subscriptionPlanId">
+            <End Role="SubscriptionPlans" EntitySet="SubscriptionPlans" />
+            <End Role="UserSubscriptions" EntitySet="UserSubscriptions" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RefSystemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="C__MigrationHistory" EntityType="RefSystemModel.C__MigrationHistory" />
+          <EntitySet Name="AspNetRoles" EntityType="RefSystemModel.AspNetRoles" />
+          <EntitySet Name="AspNetUserClaims" EntityType="RefSystemModel.AspNetUserClaims" />
+          <EntitySet Name="AspNetUserLogins" EntityType="RefSystemModel.AspNetUserLogins" />
+          <EntitySet Name="AspNetUsers" EntityType="RefSystemModel.AspNetUsers" />
+          <EntitySet Name="CourseLevels" EntityType="RefSystemModel.CourseLevels" />
+          <EntitySet Name="Courses" EntityType="RefSystemModel.Courses" />
+          <EntitySet Name="DownloadRecords" EntityType="RefSystemModel.DownloadRecords" />
+          <EntitySet Name="EmailSettings" EntityType="RefSystemModel.EmailSettings" />
+          <EntitySet Name="EmailTemplates" EntityType="RefSystemModel.EmailTemplates" />
+          <EntitySet Name="Pages" EntityType="RefSystemModel.Pages" />
+          <EntitySet Name="PaymentRecords" EntityType="RefSystemModel.PaymentRecords" />
+          <EntitySet Name="QuestionOptions" EntityType="RefSystemModel.QuestionOptions" />
+          <EntitySet Name="Questions" EntityType="RefSystemModel.Questions" />
+          <EntitySet Name="ReferenceAnswers" EntityType="RefSystemModel.ReferenceAnswers" />
+          <EntitySet Name="ReferenceFiles" EntityType="RefSystemModel.ReferenceFiles" />
+          <EntitySet Name="References" EntityType="RefSystemModel.References" />
+          <EntitySet Name="ReferenceShareRecords" EntityType="RefSystemModel.ReferenceShareRecords" />
+          <EntitySet Name="RefForms" EntityType="RefSystemModel.RefForms" />
+          <EntitySet Name="Schools" EntityType="RefSystemModel.Schools" />
+          <EntitySet Name="SubscriptionPlans" EntityType="RefSystemModel.SubscriptionPlans" />
+          <EntitySet Name="Universities" EntityType="RefSystemModel.Universities" />
+          <EntitySet Name="UserProfiles" EntityType="RefSystemModel.UserProfiles" />
+          <EntitySet Name="UserSubscriptions" EntityType="RefSystemModel.UserSubscriptions" />
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="RefSystemModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="RefSystemModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_References_dbo_AspNetUsers_UserId" Association="RefSystemModel.FK_dbo_References_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="References" EntitySet="References" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_UserProfiles_dbo_AspNetUsers_UserId" Association="RefSystemModel.FK_dbo_UserProfiles_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="UserProfiles" EntitySet="UserProfiles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_UserSubscriptions_dbo_AspNetUsers_UserId" Association="RefSystemModel.FK_dbo_UserSubscriptions_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="UserSubscriptions" EntitySet="UserSubscriptions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Courses_dbo_CourseLevels_CourseLevelId" Association="RefSystemModel.FK_dbo_Courses_dbo_CourseLevels_CourseLevelId">
+            <End Role="CourseLevels" EntitySet="CourseLevels" />
+            <End Role="Courses" EntitySet="Courses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_DownloadRecords_dbo_ReferenceShareRecords_ReferenceShareRecordId" Association="RefSystemModel.FK_dbo_DownloadRecords_dbo_ReferenceShareRecords_ReferenceShareRecordId">
+            <End Role="ReferenceShareRecords" EntitySet="ReferenceShareRecords" />
+            <End Role="DownloadRecords" EntitySet="DownloadRecords" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_UserSubscriptions_dbo_PaymentRecords_PaymentRecordId" Association="RefSystemModel.FK_dbo_UserSubscriptions_dbo_PaymentRecords_PaymentRecordId">
+            <End Role="PaymentRecords" EntitySet="PaymentRecords" />
+            <End Role="UserSubscriptions" EntitySet="UserSubscriptions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_QuestionOptions_dbo_Questions_QuestionId" Association="RefSystemModel.FK_dbo_QuestionOptions_dbo_Questions_QuestionId">
+            <End Role="Questions" EntitySet="Questions" />
+            <End Role="QuestionOptions" EntitySet="QuestionOptions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Questions_dbo_RefForms_FormId" Association="RefSystemModel.FK_dbo_Questions_dbo_RefForms_FormId">
+            <End Role="RefForms" EntitySet="RefForms" />
+            <End Role="Questions" EntitySet="Questions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ReferenceAnswers_dbo_References_ReferenceId" Association="RefSystemModel.FK_dbo_ReferenceAnswers_dbo_References_ReferenceId">
+            <End Role="References" EntitySet="References" />
+            <End Role="ReferenceAnswers" EntitySet="ReferenceAnswers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ReferenceFiles_dbo_References_ReferenceId" Association="RefSystemModel.FK_dbo_ReferenceFiles_dbo_References_ReferenceId">
+            <End Role="References" EntitySet="References" />
+            <End Role="ReferenceFiles" EntitySet="ReferenceFiles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ReferenceShareRecords_dbo_References_ReferenceId" Association="RefSystemModel.FK_dbo_ReferenceShareRecords_dbo_References_ReferenceId">
+            <End Role="References" EntitySet="References" />
+            <End Role="ReferenceShareRecords" EntitySet="ReferenceShareRecords" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Schools_dbo_Universities_UniversityId" Association="RefSystemModel.FK_dbo_Schools_dbo_Universities_UniversityId">
+            <End Role="Universities" EntitySet="Universities" />
+            <End Role="Schools" EntitySet="Schools" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_UserSubscriptions_dbo_SubscriptionPlans_subscriptionPlanId" Association="RefSystemModel.FK_dbo_UserSubscriptions_dbo_SubscriptionPlans_subscriptionPlanId">
+            <End Role="SubscriptionPlans" EntitySet="SubscriptionPlans" />
+            <End Role="UserSubscriptions" EntitySet="UserSubscriptions" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserRoles" Association="RefSystemModel.AspNetUserRoles">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="C__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ContextKey" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Model" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="ProductVersion" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="RefSystemModel.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="RefSystemModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ProviderKey" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="RefSystemModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="RefSystemModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
+          <NavigationProperty Name="AspNetUserLogins" Relationship="RefSystemModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
+          <NavigationProperty Name="References" Relationship="RefSystemModel.FK_dbo_References_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="References" />
+          <NavigationProperty Name="UserProfiles" Relationship="RefSystemModel.FK_dbo_UserProfiles_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="UserProfiles" />
+          <NavigationProperty Name="UserSubscriptions" Relationship="RefSystemModel.FK_dbo_UserSubscriptions_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="UserSubscriptions" />
+          <NavigationProperty Name="AspNetRoles" Relationship="RefSystemModel.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+        </EntityType>
+        <EntityType Name="CourseLevels">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedUTC" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedUTC" Type="Int32" Nullable="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Courses" Relationship="RefSystemModel.FK_dbo_Courses_dbo_CourseLevels_CourseLevelId" FromRole="CourseLevels" ToRole="Courses" />
+        </EntityType>
+        <EntityType Name="Courses">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedUTC" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedUTC" Type="Int32" Nullable="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CourseLevelId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CourseLevels" Relationship="RefSystemModel.FK_dbo_Courses_dbo_CourseLevels_CourseLevelId" FromRole="Courses" ToRole="CourseLevels" />
+        </EntityType>
+        <EntityType Name="DownloadRecords">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ReferenceShareRecordId" Type="Int32" Nullable="false" />
+          <Property Name="IpAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedUTC" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ReferenceShareRecords" Relationship="RefSystemModel.FK_dbo_DownloadRecords_dbo_ReferenceShareRecords_ReferenceShareRecordId" FromRole="DownloadRecords" ToRole="ReferenceShareRecords" />
+        </EntityType>
+        <EntityType Name="EmailSettings">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EmailType" Type="Int32" Nullable="false" />
+          <Property Name="EmailTemplateId" Type="Int32" Nullable="false" />
+          <Property Name="ModifiedUTC" Type="Int32" Nullable="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="EmailTemplates">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmailName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EmailSubject" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Emailcc" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EmailBody" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EmailIsHTML" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedUTC" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedUTC" Type="Int32" Nullable="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Pages">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="TemplateId" Type="Int32" Nullable="false" />
+          <Property Name="MetaTag" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="MetaDescription" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedUTC" Type="Int32" Nullable="false" />
+          <Property Name="ModifiedUTC" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Published" Type="Boolean" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="PaymentRecords">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="token" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PayerId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="shippingAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="amount" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedUTC" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedUTC" Type="Int32" Nullable="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PlanId" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TransId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PNRef" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Action" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TransFee" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TaxAmount" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Completed" Type="Boolean" Nullable="false" />
+          <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UserSubscriptions" Relationship="RefSystemModel.FK_dbo_UserSubscriptions_dbo_PaymentRecords_PaymentRecordId" FromRole="PaymentRecords" ToRole="UserSubscriptions" />
+        </EntityType>
+        <EntityType Name="QuestionOptions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuestionId" Type="Int32" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Order" Type="Int32" Nullable="false" />
+          <Property Name="QuestionGroupId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Questions" Relationship="RefSystemModel.FK_dbo_QuestionOptions_dbo_Questions_QuestionId" FromRole="QuestionOptions" ToRole="Questions" />
+        </EntityType>
+        <EntityType Name="Questions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FormId" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <Property Name="Order" Type="Int32" Nullable="false" />
+          <Property Name="Group" Type="Int32" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedUTC" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedUTC" Type="Int32" Nullable="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="QuestionOptions" Relationship="RefSystemModel.FK_dbo_QuestionOptions_dbo_Questions_QuestionId" FromRole="Questions" ToRole="QuestionOptions" />
+          <NavigationProperty Name="RefForms" Relationship="RefSystemModel.FK_dbo_Questions_dbo_RefForms_FormId" FromRole="Questions" ToRole="RefForms" />
+        </EntityType>
+        <EntityType Name="ReferenceAnswers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ReferenceId" Type="Int32" Nullable="false" />
+          <Property Name="QuestionId" Type="Int32" Nullable="false" />
+          <Property Name="Answer" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="References" Relationship="RefSystemModel.FK_dbo_ReferenceAnswers_dbo_References_ReferenceId" FromRole="ReferenceAnswers" ToRole="References" />
+        </EntityType>
+        <EntityType Name="ReferenceFiles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ReferenceId" Type="Int32" Nullable="false" />
+          <Property Name="FileByte" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="ModifiedUTC" Type="Int32" Nullable="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="References" Relationship="RefSystemModel.FK_dbo_ReferenceFiles_dbo_References_ReferenceId" FromRole="ReferenceFiles" ToRole="References" />
+        </EntityType>
+        <EntityType Name="References">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RefEmail" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RefUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CourseID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="CreatedUTC" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedUTC" Type="Int32" Nullable="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TransId" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Token" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ExpiryDateUTC" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AspNetUsers" Relationship="RefSystemModel.FK_dbo_References_dbo_AspNetUsers_UserId" FromRole="References" ToRole="AspNetUsers" />
+          <NavigationProperty Name="ReferenceAnswers" Relationship="RefSystemModel.FK_dbo_ReferenceAnswers_dbo_References_ReferenceId" FromRole="References" ToRole="ReferenceAnswers" />
+          <NavigationProperty Name="ReferenceFiles" Relationship="RefSystemModel.FK_dbo_ReferenceFiles_dbo_References_ReferenceId" FromRole="References" ToRole="ReferenceFiles" />
+          <NavigationProperty Name="ReferenceShareRecords" Relationship="RefSystemModel.FK_dbo_ReferenceShareRecords_dbo_References_ReferenceId" FromRole="References" ToRole="ReferenceShareRecords" />
+        </EntityType>
+        <EntityType Name="ReferenceShareRecords">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ReferenceId" Type="Int32" Nullable="false" />
+          <Property Name="LinkToken" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SchoolID" Type="Int32" Nullable="false" />
+          <Property Name="ClickCount" Type="Int32" Nullable="false" />
+          <Property Name="CreatedUTC" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedUTC" Type="Int32" Nullable="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DownloadRecords" Relationship="RefSystemModel.FK_dbo_DownloadRecords_dbo_ReferenceShareRecords_ReferenceShareRecordId" FromRole="ReferenceShareRecords" ToRole="DownloadRecords" />
+          <NavigationProperty Name="References" Relationship="RefSystemModel.FK_dbo_ReferenceShareRecords_dbo_References_ReferenceId" FromRole="ReferenceShareRecords" ToRole="References" />
+        </EntityType>
+        <EntityType Name="RefForms">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Readable" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="CreatedUTC" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedUTC" Type="Int32" Nullable="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UserType" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Questions" Relationship="RefSystemModel.FK_dbo_Questions_dbo_RefForms_FormId" FromRole="RefForms" ToRole="Questions" />
+        </EntityType>
+        <EntityType Name="Schools">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UniversityId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FullAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Contact" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedUTC" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedUTC" Type="Int32" Nullable="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Universities" Relationship="RefSystemModel.FK_dbo_Schools_dbo_Universities_UniversityId" FromRole="Schools" ToRole="Universities" />
+        </EntityType>
+        <EntityType Name="SubscriptionPlans">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Int32" Nullable="false" />
+          <Property Name="RequiredRoles" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LengthValue" Type="Int32" Nullable="false" />
+          <Property Name="LengthType" Type="Int32" Nullable="false" />
+          <Property Name="CreatedUTC" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedUTC" Type="Int32" Nullable="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UserSubscriptions" Relationship="RefSystemModel.FK_dbo_UserSubscriptions_dbo_SubscriptionPlans_subscriptionPlanId" FromRole="SubscriptionPlans" ToRole="UserSubscriptions" />
+        </EntityType>
+        <EntityType Name="Universities">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FullAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedUTC" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedUTC" Type="Int32" Nullable="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Schools" Relationship="RefSystemModel.FK_dbo_Schools_dbo_Universities_UniversityId" FromRole="Universities" ToRole="Schools" />
+        </EntityType>
+        <EntityType Name="UserProfiles">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Gender" Type="Int32" Nullable="false" />
+          <Property Name="Contact" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AltContact" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UniversityID" Type="Int32" />
+          <Property Name="SchoolID" Type="Int32" />
+          <Property Name="SchoolName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="InstitutionId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AgreeToTerms" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedUTC" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedUTC" Type="Int32" Nullable="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="InstitutionName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Position" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RefereeType" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AspNetUsers" Relationship="RefSystemModel.FK_dbo_UserProfiles_dbo_AspNetUsers_UserId" FromRole="UserProfiles" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="UserSubscriptions">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="subscriptionPlanId" Type="Int32" Nullable="false" />
+          <Property Name="PaymentRecordId" Type="Int32" Nullable="false" />
+          <Property Name="ExpiryUTC" Type="Int32" Nullable="false" />
+          <Property Name="CreatedUTC" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedUTC" Type="Int32" Nullable="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="RefSystemModel.FK_dbo_UserSubscriptions_dbo_AspNetUsers_UserId" FromRole="UserSubscriptions" ToRole="AspNetUsers" />
+          <NavigationProperty Name="PaymentRecords" Relationship="RefSystemModel.FK_dbo_UserSubscriptions_dbo_PaymentRecords_PaymentRecordId" FromRole="UserSubscriptions" ToRole="PaymentRecords" />
+          <NavigationProperty Name="SubscriptionPlans" Relationship="RefSystemModel.FK_dbo_UserSubscriptions_dbo_SubscriptionPlans_subscriptionPlanId" FromRole="UserSubscriptions" ToRole="SubscriptionPlans" />
+        </EntityType>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Type="RefSystemModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="RefSystemModel.AspNetUserClaims" Role="AspNetUserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Type="RefSystemModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="RefSystemModel.AspNetUserLogins" Role="AspNetUserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_References_dbo_AspNetUsers_UserId">
+          <End Type="RefSystemModel.AspNetUsers" Role="AspNetUsers" Multiplicity="0..1" />
+          <End Type="RefSystemModel.References" Role="References" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="References">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_UserProfiles_dbo_AspNetUsers_UserId">
+          <End Type="RefSystemModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="RefSystemModel.UserProfiles" Role="UserProfiles" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserProfiles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_UserSubscriptions_dbo_AspNetUsers_UserId">
+          <End Type="RefSystemModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="RefSystemModel.UserSubscriptions" Role="UserSubscriptions" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserSubscriptions">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Courses_dbo_CourseLevels_CourseLevelId">
+          <End Type="RefSystemModel.CourseLevels" Role="CourseLevels" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="RefSystemModel.Courses" Role="Courses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CourseLevels">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Courses">
+              <PropertyRef Name="CourseLevelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_DownloadRecords_dbo_ReferenceShareRecords_ReferenceShareRecordId">
+          <End Type="RefSystemModel.ReferenceShareRecords" Role="ReferenceShareRecords" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="RefSystemModel.DownloadRecords" Role="DownloadRecords" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReferenceShareRecords">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="DownloadRecords">
+              <PropertyRef Name="ReferenceShareRecordId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_UserSubscriptions_dbo_PaymentRecords_PaymentRecordId">
+          <End Type="RefSystemModel.PaymentRecords" Role="PaymentRecords" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="RefSystemModel.UserSubscriptions" Role="UserSubscriptions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentRecords">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserSubscriptions">
+              <PropertyRef Name="PaymentRecordId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_QuestionOptions_dbo_Questions_QuestionId">
+          <End Type="RefSystemModel.Questions" Role="Questions" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="RefSystemModel.QuestionOptions" Role="QuestionOptions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Questions">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuestionOptions">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Questions_dbo_RefForms_FormId">
+          <End Type="RefSystemModel.RefForms" Role="RefForms" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="RefSystemModel.Questions" Role="Questions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RefForms">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Questions">
+              <PropertyRef Name="FormId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ReferenceAnswers_dbo_References_ReferenceId">
+          <End Type="RefSystemModel.References" Role="References" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="RefSystemModel.ReferenceAnswers" Role="ReferenceAnswers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="References">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ReferenceAnswers">
+              <PropertyRef Name="ReferenceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ReferenceFiles_dbo_References_ReferenceId">
+          <End Type="RefSystemModel.References" Role="References" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="RefSystemModel.ReferenceFiles" Role="ReferenceFiles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="References">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ReferenceFiles">
+              <PropertyRef Name="ReferenceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ReferenceShareRecords_dbo_References_ReferenceId">
+          <End Type="RefSystemModel.References" Role="References" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="RefSystemModel.ReferenceShareRecords" Role="ReferenceShareRecords" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="References">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ReferenceShareRecords">
+              <PropertyRef Name="ReferenceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Schools_dbo_Universities_UniversityId">
+          <End Type="RefSystemModel.Universities" Role="Universities" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="RefSystemModel.Schools" Role="Schools" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Universities">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Schools">
+              <PropertyRef Name="UniversityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_UserSubscriptions_dbo_SubscriptionPlans_subscriptionPlanId">
+          <End Type="RefSystemModel.SubscriptionPlans" Role="SubscriptionPlans" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="RefSystemModel.UserSubscriptions" Role="UserSubscriptions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubscriptionPlans">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserSubscriptions">
+              <PropertyRef Name="subscriptionPlanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AspNetUserRoles">
+          <End Type="RefSystemModel.AspNetRoles" Role="AspNetRoles" Multiplicity="*" />
+          <End Type="RefSystemModel.AspNetUsers" Role="AspNetUsers" Multiplicity="*" />
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="RefSystemModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="C__MigrationHistory">
+            <EntityTypeMapping TypeName="RefSystemModel.C__MigrationHistory">
+              <MappingFragment StoreEntitySet="__MigrationHistory">
+                <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+                <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetRoles">
+            <EntityTypeMapping TypeName="RefSystemModel.AspNetRoles">
+              <MappingFragment StoreEntitySet="AspNetRoles">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserClaims">
+            <EntityTypeMapping TypeName="RefSystemModel.AspNetUserClaims">
+              <MappingFragment StoreEntitySet="AspNetUserClaims">
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserLogins">
+            <EntityTypeMapping TypeName="RefSystemModel.AspNetUserLogins">
+              <MappingFragment StoreEntitySet="AspNetUserLogins">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="RefSystemModel.AspNetUsers">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CourseLevels">
+            <EntityTypeMapping TypeName="RefSystemModel.CourseLevels">
+              <MappingFragment StoreEntitySet="CourseLevels">
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedUTC" ColumnName="ModifiedUTC" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Courses">
+            <EntityTypeMapping TypeName="RefSystemModel.Courses">
+              <MappingFragment StoreEntitySet="Courses">
+                <ScalarProperty Name="CourseLevelId" ColumnName="CourseLevelId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedUTC" ColumnName="ModifiedUTC" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DownloadRecords">
+            <EntityTypeMapping TypeName="RefSystemModel.DownloadRecords">
+              <MappingFragment StoreEntitySet="DownloadRecords">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="IpAddress" ColumnName="IpAddress" />
+                <ScalarProperty Name="ReferenceShareRecordId" ColumnName="ReferenceShareRecordId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmailSettings">
+            <EntityTypeMapping TypeName="RefSystemModel.EmailSettings">
+              <MappingFragment StoreEntitySet="EmailSettings">
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedUTC" ColumnName="ModifiedUTC" />
+                <ScalarProperty Name="EmailTemplateId" ColumnName="EmailTemplateId" />
+                <ScalarProperty Name="EmailType" ColumnName="EmailType" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmailTemplates">
+            <EntityTypeMapping TypeName="RefSystemModel.EmailTemplates">
+              <MappingFragment StoreEntitySet="EmailTemplates">
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedUTC" ColumnName="ModifiedUTC" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
+                <ScalarProperty Name="EmailIsHTML" ColumnName="EmailIsHTML" />
+                <ScalarProperty Name="EmailBody" ColumnName="EmailBody" />
+                <ScalarProperty Name="Emailcc" ColumnName="Emailcc" />
+                <ScalarProperty Name="EmailSubject" ColumnName="EmailSubject" />
+                <ScalarProperty Name="EmailName" ColumnName="EmailName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pages">
+            <EntityTypeMapping TypeName="RefSystemModel.Pages">
+              <MappingFragment StoreEntitySet="Pages">
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+                <ScalarProperty Name="Published" ColumnName="Published" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ModifiedUTC" ColumnName="ModifiedUTC" />
+                <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
+                <ScalarProperty Name="MetaDescription" ColumnName="MetaDescription" />
+                <ScalarProperty Name="MetaTag" ColumnName="MetaTag" />
+                <ScalarProperty Name="TemplateId" ColumnName="TemplateId" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentRecords">
+            <EntityTypeMapping TypeName="RefSystemModel.PaymentRecords">
+              <MappingFragment StoreEntitySet="PaymentRecords">
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Completed" ColumnName="Completed" />
+                <ScalarProperty Name="TaxAmount" ColumnName="TaxAmount" />
+                <ScalarProperty Name="TransFee" ColumnName="TransFee" />
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="PNRef" ColumnName="PNRef" />
+                <ScalarProperty Name="TransId" ColumnName="TransId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="PlanId" ColumnName="PlanId" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedUTC" ColumnName="ModifiedUTC" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="shippingAddress" ColumnName="shippingAddress" />
+                <ScalarProperty Name="PayerId" ColumnName="PayerId" />
+                <ScalarProperty Name="token" ColumnName="token" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuestionOptions">
+            <EntityTypeMapping TypeName="RefSystemModel.QuestionOptions">
+              <MappingFragment StoreEntitySet="QuestionOptions">
+                <ScalarProperty Name="QuestionGroupId" ColumnName="QuestionGroupId" />
+                <ScalarProperty Name="Order" ColumnName="Order" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Questions">
+            <EntityTypeMapping TypeName="RefSystemModel.Questions">
+              <MappingFragment StoreEntitySet="Questions">
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedUTC" ColumnName="ModifiedUTC" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Group" ColumnName="Group" />
+                <ScalarProperty Name="Order" ColumnName="Order" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="FormId" ColumnName="FormId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReferenceAnswers">
+            <EntityTypeMapping TypeName="RefSystemModel.ReferenceAnswers">
+              <MappingFragment StoreEntitySet="ReferenceAnswers">
+                <ScalarProperty Name="Answer" ColumnName="Answer" />
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="ReferenceId" ColumnName="ReferenceId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReferenceFiles">
+            <EntityTypeMapping TypeName="RefSystemModel.ReferenceFiles">
+              <MappingFragment StoreEntitySet="ReferenceFiles">
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedUTC" ColumnName="ModifiedUTC" />
+                <ScalarProperty Name="FileByte" ColumnName="FileByte" />
+                <ScalarProperty Name="ReferenceId" ColumnName="ReferenceId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="References">
+            <EntityTypeMapping TypeName="RefSystemModel.References">
+              <MappingFragment StoreEntitySet="References">
+                <ScalarProperty Name="ExpiryDateUTC" ColumnName="ExpiryDateUTC" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Token" ColumnName="Token" />
+                <ScalarProperty Name="TransId" ColumnName="TransId" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedUTC" ColumnName="ModifiedUTC" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="CourseID" ColumnName="CourseID" />
+                <ScalarProperty Name="RefUserId" ColumnName="RefUserId" />
+                <ScalarProperty Name="RefEmail" ColumnName="RefEmail" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReferenceShareRecords">
+            <EntityTypeMapping TypeName="RefSystemModel.ReferenceShareRecords">
+              <MappingFragment StoreEntitySet="ReferenceShareRecords">
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedUTC" ColumnName="ModifiedUTC" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
+                <ScalarProperty Name="ClickCount" ColumnName="ClickCount" />
+                <ScalarProperty Name="SchoolID" ColumnName="SchoolID" />
+                <ScalarProperty Name="LinkToken" ColumnName="LinkToken" />
+                <ScalarProperty Name="ReferenceId" ColumnName="ReferenceId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RefForms">
+            <EntityTypeMapping TypeName="RefSystemModel.RefForms">
+              <MappingFragment StoreEntitySet="RefForms">
+                <ScalarProperty Name="UserType" ColumnName="UserType" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedUTC" ColumnName="ModifiedUTC" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Readable" ColumnName="Readable" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Schools">
+            <EntityTypeMapping TypeName="RefSystemModel.Schools">
+              <MappingFragment StoreEntitySet="Schools">
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedUTC" ColumnName="ModifiedUTC" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
+                <ScalarProperty Name="Contact" ColumnName="Contact" />
+                <ScalarProperty Name="FullAddress" ColumnName="FullAddress" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="UniversityId" ColumnName="UniversityId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubscriptionPlans">
+            <EntityTypeMapping TypeName="RefSystemModel.SubscriptionPlans">
+              <MappingFragment StoreEntitySet="SubscriptionPlans">
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedUTC" ColumnName="ModifiedUTC" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
+                <ScalarProperty Name="LengthType" ColumnName="LengthType" />
+                <ScalarProperty Name="LengthValue" ColumnName="LengthValue" />
+                <ScalarProperty Name="RequiredRoles" ColumnName="RequiredRoles" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Universities">
+            <EntityTypeMapping TypeName="RefSystemModel.Universities">
+              <MappingFragment StoreEntitySet="Universities">
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedUTC" ColumnName="ModifiedUTC" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
+                <ScalarProperty Name="FullAddress" ColumnName="FullAddress" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserProfiles">
+            <EntityTypeMapping TypeName="RefSystemModel.UserProfiles">
+              <MappingFragment StoreEntitySet="UserProfiles">
+                <ScalarProperty Name="RefereeType" ColumnName="RefereeType" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="InstitutionName" ColumnName="InstitutionName" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedUTC" ColumnName="ModifiedUTC" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
+                <ScalarProperty Name="AgreeToTerms" ColumnName="AgreeToTerms" />
+                <ScalarProperty Name="InstitutionId" ColumnName="InstitutionId" />
+                <ScalarProperty Name="SchoolName" ColumnName="SchoolName" />
+                <ScalarProperty Name="SchoolID" ColumnName="SchoolID" />
+                <ScalarProperty Name="UniversityID" ColumnName="UniversityID" />
+                <ScalarProperty Name="AltContact" ColumnName="AltContact" />
+                <ScalarProperty Name="Contact" ColumnName="Contact" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserSubscriptions">
+            <EntityTypeMapping TypeName="RefSystemModel.UserSubscriptions">
+              <MappingFragment StoreEntitySet="UserSubscriptions">
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedUTC" ColumnName="ModifiedUTC" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
+                <ScalarProperty Name="ExpiryUTC" ColumnName="ExpiryUTC" />
+                <ScalarProperty Name="PaymentRecordId" ColumnName="PaymentRecordId" />
+                <ScalarProperty Name="subscriptionPlanId" ColumnName="subscriptionPlanId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="RefSystemModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetUsers">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+            <EndProperty Name="AspNetRoles">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

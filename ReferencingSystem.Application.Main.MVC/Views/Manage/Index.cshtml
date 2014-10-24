@@ -1,0 +1,119 @@
+﻿@model ReferencingSystem.Application.Main.MVC.Models.UpdateViewModel
+@using Microsoft.AspNet.Identity
+@using System.Security.Claims;
+@using ReferencingSystem.Model
+@{
+    ViewBag.Title = "My Account";
+    var userId = User.Identity.GetUserId();
+    UserSubscription uSub = new RsContext().UserSubscription.Where(x => x.UserId == userId).FirstOrDefault();
+    if (uSub == null)
+    {
+        uSub = new UserSubscription();
+    }
+}
+<header class="main-header">
+    <div class="container">
+        <h1 class="page-title">@ViewBag.Title</h1>
+    </div>
+</header>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            @Html.Partial("_ApplicationLinkPartial", 2)
+        </div>
+        <div class="col-md-9">
+            @Html.Partial("_ProfilesPartial", Model)
+            
+            @{
+                <hr />
+
+                var roles = ((ClaimsIdentity)User.Identity).Claims
+                .Where(c => c.Type == ClaimTypes.Role)
+                .Select(c => c.Value);
+                if (new ReferencingSystem.Core.BF.BusinessFunctionComponents().UserSubscriptionRequired(roles))
+                {
+                    @Html.Partial("UserSubscriptionPartial", uSub)
+                }
+            }
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $("#updateForm").validate();
+        $(document).ready(function () {
+            var isValid = @Html.Raw(Json.Encode(ViewData.ModelState.IsValid));
+            if (!isValid) {
+                toogle(true);
+            }
+            else
+            {
+                toogle(false);
+            }
+            if ($('#userprofile_UniversityId').val() != "") {
+
+                $('#userprofile_UniversityName').val("");
+            }
+        });
+
+        $('#userprofile_UniversityId:first').change(function () {
+            $('#uniName').toggle();
+            $('#userprofile_UniversityName').val("");
+        })
+
+        $('#ChangeDetails').click(function () {
+            toogle(true);
+        });
+
+        $('#CancelDetails').click(function () {
+            toogle(false);
+        });
+
+        function toogle(show) {
+            if(show)
+            {
+                $('input#Email').fadeIn();
+                $('input#userprofile_FirstName').fadeIn();
+                $('input#userprofile_LastName').fadeIn();
+                $('input#userprofile_Contact').fadeIn();
+                $('#userprofile_UniversityId').fadeIn();
+                $('input#userprofile_InstitutionName').fadeIn();
+                $('input#userprofile_InstitutionId').fadeIn();
+                $('input#submitProfiles').fadeIn();
+                $('#CancelDetails').fadeIn();
+
+                $('span#Email').hide();
+                $('span#userprofile_FirstName').hide();
+                $('span#userprofile_LastName').hide();
+                $('span#userprofile_Contact').hide();
+                $('span#userprofile_InstitutionName').hide();
+                $('span#userprofile_InstitutionId').hide();
+                $('span#submitProfiles').hide();
+                $('#ChangeDetails').hide();
+            }
+            else
+            {
+                $('input#Email').hide();
+                $('input#userprofile_FirstName').hide();
+                $('input#userprofile_LastName').hide();
+                $('input#userprofile_Contact').hide();
+                $('#userprofile_UniversityId').hide();
+                $('input#userprofile_InstitutionName').hide();
+                $('input#userprofile_InstitutionId').hide();
+                $('input#submitProfiles').hide();
+                $('#CancelDetails').hide();
+
+                $('span#Email').fadeIn();
+                $('span#userprofile_FirstName').fadeIn();
+                $('span#userprofile_LastName').fadeIn();
+                $('span#userprofile_Contact').fadeIn();
+                $('span#userprofile_InstitutionName').fadeIn();
+                $('span#userprofile_InstitutionId').fadeIn();
+                $('span#submitProfiles').fadeIn();
+                $('#ChangeDetails').fadeIn();
+            }
+        }
+    </script>
+}

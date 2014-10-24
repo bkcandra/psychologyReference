@@ -1,0 +1,62 @@
+﻿@model List<EmailSetting>
+@using ReferencingSystem.Model;
+@using ReferencingSystem.Utility;
+@{
+    ViewBag.Title = "Email Setting";
+    var templates = new RsContext().EmailTemplate.ToList();
+}
+
+
+<section class="content">
+    <div class="box box-primary">
+        <div class="box-header">
+            <h3 class="box-title">Mail Setting</h3>
+        </div><!-- /.box-header -->
+        <!-- form start -->
+        @using (Html.BeginForm("Edit", "Email", FormMethod.Post, null))
+        {
+            @Html.AntiForgeryToken()
+            <div class="box-body">
+            
+                @if (!string.IsNullOrEmpty(ViewBag.StatusMessage))
+                {
+                    <div class="alert alert-info alert-dismissable">
+                        <i class="fa fa-info"></i>
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <b>Alert!</b> @ViewBag.StatusMessage
+                    </div>
+                }
+                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                <div style="padding: 10px">
+                    @foreach (var item in Model)
+                    {
+                        var index = Guid.NewGuid();
+
+                        <input type="hidden" name="emailSetting.Index" value="@index" />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <b>@item.Name</b>
+                                <p>@item.Description</p>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                @Html.Hidden("emailSetting[" + @index + "].Name", item.Name)
+                                @Html.Hidden("emailSetting[" + @index + "].Id", item.Id)
+                                @Html.Hidden("emailSetting[" + @index + "].Description", item.Description)
+                                @Html.Hidden("emailSetting[" + @index + "].EmailType", item.EmailType)
+                                @Html.DropDownList("emailSetting[" + @index + "].EmailTemplateId", new SelectList(templates, "Id", "EmailName", item.EmailTemplateId), "-- Select One --")
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary">Edit</button>
+                <button type="submit" class="btn btn-primary">Cancel</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        }
+    </div>
+    @Html.Partial("_PartialEmailTemplateList", templates)
+</section>
+

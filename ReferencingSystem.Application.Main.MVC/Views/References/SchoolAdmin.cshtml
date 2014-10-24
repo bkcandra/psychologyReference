@@ -1,0 +1,35 @@
+﻿
+@using Microsoft.AspNet.Identity;
+@{
+    ViewBag.Title = "My References";
+    var userId = User.Identity.GetUserId();
+    var sAdmin = new ReferencingSystem.Model.RsContext().UniversityAdmin.Where(x => x.UserId == userId).FirstOrDefault();
+}
+<header class="main-header">
+    <div class="container">
+        <h1 class="page-title">@ViewBag.Title</h1>
+    </div>
+</header>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            @Html.Partial("_ApplicationLinkPartial", 1)
+        </div>
+        <div class="col-md-9">
+
+            <div class="col-md-12">
+                <h3>Manage Request</h3>
+                <p class="em-primary">@ViewBag.StatusMessage</p>
+            </div>
+            <div class="col-md-12">
+                @Html.Partial("UniAdminReferenceListing", sAdmin)
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}

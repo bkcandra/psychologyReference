@@ -1,0 +1,32 @@
+﻿@model int
+
+<ul class="sidebar-nav animated fadeIn">
+    @{if (Model == 1)
+    {
+        <li class="active">
+            <a href="@Url.Content("~/References")" class="collapsed"><i class="fa fa-pencil-square-o"></i>My References</a>
+        </li>
+        <li>
+            <a href="@Url.Content("~/Manage")" class="collapsed"><i class="fa fa-user"></i>My Account</a>
+        </li>
+    }
+    else if (Model == 2)
+    {
+        <li>
+            <a href="@Url.Content("~/References")" class="collapsed"><i class="fa fa-pencil-square-o"></i>My References</a>
+        </li>
+        <li class="active">
+            <a href="@Url.Content("~/Manage")" class="collapsed"><i class="fa fa-user"></i>My Account</a>
+        </li>
+    }
+    else
+    {
+        <li>
+            <a href="@Url.Content("~/References")" class="collapsed"><i class="fa fa-pencil-square-o"></i>My References</a>
+        </li>
+        <li>
+            <a href="@Url.Content("~/Manage")" class="collapsed"><i class="fa fa-user"></i>My Account</a>
+        </li>
+    }
+    }
+</ul>

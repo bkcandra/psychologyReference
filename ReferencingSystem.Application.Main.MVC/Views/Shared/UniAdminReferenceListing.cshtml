@@ -1,0 +1,189 @@
+﻿@model UniversityAdmin
+@using ReferencingSystem.Model
+@using ReferencingSystem.Core.BF
+@using System.Linq
+@using System.Data.Entity;
+@{
+    var rs = new RsContext();
+
+    var UserRefs = rs.ReferenceShareRecord.Where(x => x.UniversityId == Model.UniversityId).ToList();
+    var RefIds = UserRefs.Select(u => u.ReferenceId).ToList();
+    var FullRefs = rs.Reference.Include(x => (x.ReferenceCourse)).Where(x => RefIds.Contains(x.Id)).ToList();
+    var UsrIds = FullRefs.Select(u => u.UserId).ToList();
+    var stdProfiles = rs.UserProfiles.Where(x => UsrIds.Contains(x.UserId)).ToList();
+
+    var CourseLevel = rs.CourseLevel.ToList();
+    var Course = rs.Course.ToList();
+    var index = 1;
+}
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Applicant name</th>
+                <th>Course Level</th>
+                <th>Area of Study</th>
+                <th>Shared date </th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in UserRefs)
+            {
+                var FullRef = FullRefs.Where(x => x.Id == item.ReferenceId).FirstOrDefault();
+
+                var rcIndex = 1;
+                if (FullRef.ReferenceCourse.Any())
+                {
+                    foreach (var rCItem in FullRef.ReferenceCourse)
+                    {
+                        var cName = "";
+                        var usr = stdProfiles.Where(x => x.UserId == FullRef.UserId).FirstOrDefault();
+                        if (rCItem.CourseId == 0)
+                        { cName = rCItem.CourseText; }
+                        else if (Course.Where(x => x.Id == rCItem.CourseId).FirstOrDefault() == null)
+                        {
+                            cName = "Unknown course";
+                        }
+                        else
+                        { cName = Course.Where(x => x.Id == rCItem.CourseId).FirstOrDefault().Name; }
+
+                        var cLevelName = CourseLevel.Where(x => x.Id == rCItem.CourseLevelId).FirstOrDefault() != null ? CourseLevel.Where(x => x.Id == rCItem.CourseLevelId).FirstOrDefault().Name : "Unknown level";
+                        if (rcIndex == 1)
+                        {
+                            <tr>
+                                <td>@index</td>
+                                <td>@usr.FirstName @usr.LastName</td>
+                                <td>@cLevelName</td>
+                                <td>@cName</td>
+                                <td>@ReferencingSystem.Utility.SystemConstants.FromUnixTimeToLocal(item.CreatedUTC).ToString("dd MMM yyyy")</td>
+
+                                @if (FullRef.Status == (int)ReferencingSystem.Utility.SystemConstants.Status.SharedAndCompleted)
+                                {
+
+                                    <td>
+                                        @Html.ActionLink("View", "PdfViewer", "Viewer", new { Id = FullRef.Token }, new { target = "_blank" })
+                                        @Html.ActionLink("Download", "Files", "Reference", new { TransId = FullRef.TransId }, null)
+                                    </td>
+
+                                }
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>@cLevelName</td>
+                                <td>@cName</td>
+                                <td></td>
+
+
+                                <td></td>
+                            </tr>
+                        }
+
+                        rcIndex++;
+                    }
+
+
+                }
+
+                index++;
+            }
+        </tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </table>
+    @foreach (var item in UserRefs)
+    {
+        //create Note divs here
+        index++;
+    }
+</div>
